@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model task {
+  id          Int         @id @default(autoincrement())
+  title       String
+  description String
+  attachment  String
+  team        String
+  employee_id String
+  start_date  DateTime
+  end_date    DateTime
+  status      task_status
+  createdAt   DateTime    @default(now()) @db.Timestamp(6)
+}
+
+model users {
+  id             Int     @id @default(autoincrement())
+  firstname      String
+  lastname       String
+  email          String  @unique
+  phone          String
+  dob            String
+  gender         String
+  country        String
+  city           String
+  zipcode        String
+  sudoName       String
+  Blood_Group    String
+  Marital_Status String
+  Department     String
+  Designation    String
+  doj            String
+  employee_id    String
+  password       String
+  profile_img    String? @default("avather.png")
+}
+
+enum task_status {
+  pendding
+  completed
+  started
+  EMPTY_ENUM_VALUE @map("")
+}
