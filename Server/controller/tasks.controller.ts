@@ -3,7 +3,7 @@ import { env } from "process";
 const prisma = new PrismaClient();
 const express = require("express");
 const app = express();
-export default async function getTaskDetails(req: any, res: any) {
+export async function getTaskDetails(req: any, res: any) {
   //   res.statusCode === 200;
   await prisma.task
     .upsert({
@@ -15,6 +15,7 @@ export default async function getTaskDetails(req: any, res: any) {
         description: req.body.description,
         attachment: req.file?.filename || req.body.attachment,
         team: req.body.team,
+        priority: req.body.priority,
         employee_id: req.body.employee_id,
         start_date: new Date(req.body.start_date),
         end_date: new Date(req.body.end_date),
@@ -25,6 +26,7 @@ export default async function getTaskDetails(req: any, res: any) {
         attachment: req.file?.filename || req.body.attachment,
         team: req.body.team,
         status: "pendding",
+        priority: req.body.priority,
         employee_id: req.body.employee_id,
         start_date: new Date(req.body.start_date),
         end_date: new Date(req.body.end_date),
@@ -94,7 +96,7 @@ export const deleteDetailsById = async (req: any, res: any) => {
     });
 };
 
-export const updateDetailsById = async (req: any, res: any) => {
+export const updateTaskStatusByID = async (req: any, res: any) => {
   // console.log(req.params);
   // var Id = parseInt(req.params.Id);
   // console.log(typeof Id);

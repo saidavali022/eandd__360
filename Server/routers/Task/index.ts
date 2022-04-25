@@ -1,9 +1,9 @@
 const router = require("express").Router();
 import upload from "../../modules/fileupload";
-import * as task from "../../services/Task/index";
+import * as task from "../../controller/tasks.controller";
 
 router.post("/create/:Id", upload, async (req: any, res: any) => {
-  await task.default(req, res);
+  await task.getTaskDetails(req, res);
 });
 
 router.get("/get/:empId", async (req: any, res: any) => {
@@ -19,7 +19,7 @@ router.delete("/delete/:Id", async (req: any, res: any) => {
 });
 
 router.put("/update/:Id", async (req: any, res: any) => {
-  await task.updateDetailsById(req, res);
+  await task.updateTaskStatusByID(req, res);
 });
 
 export default router;

@@ -29,8 +29,8 @@ const sidebarConfig = [
   //   icon: getIcon("eva:people-fill"),
   // },
   {
-    title: "blog",
-    path: "/admin/blog",
+    title: "Exist Management",
+    path: "/admin/exit",
     icon: getIcon("eva:file-text-fill"),
   },
   {

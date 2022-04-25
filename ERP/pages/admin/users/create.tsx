@@ -78,11 +78,10 @@ export default function create() {
     formBindData.append("doj", formDataa.doj);
     formBindData.append("employee_id", formDataa.employee_id);
     formBindData.append("password", formDataa.password);
-    formBindData.append("profile_img", formDataa.profile_img);
-
+    formBindData.append("file", formDataa.file);
     axios({
       method: "post",
-      url: "http://192.168.1.187:3001/createuser",
+      url: "http://192.168.1.187:3001/users",
       data: formBindData,
       headers: { "Content-Type": "multipart/form-data" },
     })

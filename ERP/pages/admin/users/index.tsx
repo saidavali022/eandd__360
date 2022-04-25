@@ -8,7 +8,7 @@ import { Stack, Button, Container, Typography } from "@mui/material";
 // components
 import Page from "@components/Page";
 import Iconify from "@components/Iconify";
-import axios from "../defaultImports/defaultImports";
+import axios from "../../defaultImports/defaultImports";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", minWidth: 200 },
@@ -96,7 +96,7 @@ export default function User() {
   useEffect(() => {
     axios({
       method: "get",
-      url: "/user/",
+      url: "/users/",
     }).then(function (response: any) {
       if (response.status === 200) {
         console.log(response.data);

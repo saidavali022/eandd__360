@@ -41,9 +41,16 @@ export default function Task() {
   const [anchor, setanchor] = useState(false);
   const [InputDate, setInputDate] = useState("text");
   const [optionEmp, setoptionEmp] = useState("");
+  const [priorityTeam, setpriorityTeam] = useState("");
+  const [departments, setdepartments] = useState();
   const changeoptionEmp = (event: any) => {
     setoptionEmp(event.target.value);
   };
+
+  const changepriorityTeam = (event: any) => {
+    setpriorityTeam(event.target.value);
+  };
+
   const [optionTeam, setoptionTeam] = useState("");
   const changeoptionTeam = (event: any) => {
     setoptionTeam(event.target.value);
@@ -70,13 +77,14 @@ export default function Task() {
     formBindData.append("file", formData.file);
     formBindData.append("attachment", formData.attachment);
     formBindData.append("team", formData.team);
+    formBindData.append("priority", formData.priority);
     formBindData.append("employee_id", formData.employee_id);
     formBindData.append("start_date", formData.start_date);
     formBindData.append("end_date", formData.end_date);
     const id = formData.id || 0;
     axios({
       method: "post",
-      url: `${"/task/create/" + id}`,
+      url: `${"/tasks/" + id}`,
       data: formBindData,
     })
       .then(function (response: any) {
@@ -96,25 +104,40 @@ export default function Task() {
   const getTasklist = () => {
     axios({
       method: "get",
-      url: "/task/get",
+      url: "/tasks/",
     })
       .then(function (response: any) {
         if (response.status === 200) {
           setrowData(response.data.data);
-          // console.log(response);
+          console.info(response);
         }
       })
       .catch(function (error: any) {});
   };
 
+  // const getDepartments = () => {
+  //   axios({
+  //     method: "get",
+  //     url: "user/departments",
+  //   })
+  //     .then(function (response: any) {
+  //       if (response.status === 200) {
+  //         // setrowData(response.data.data);
+  //         console.log(response);
+  //       }
+  //     })
+  //     .catch(function (error: any) {});
+  // };
+
   useEffect(() => {
     getTasklist();
+    // getDepartments();
   }, []);
 
   const deleteTask = (event: Event) => {
     axios({
       method: "delete",
-      url: `${"/task/delete/" + event.target.id}`,
+      url: `${"/tasks/" + event.target.id}`,
     }).then(function (response: any) {
       if (response.status === 200) {
         getTasklist();
@@ -135,11 +158,13 @@ export default function Task() {
     { field: "id", headerName: "S.No", width: 100 },
     { field: "team", headerName: "Team", width: 250, editable: true },
     { field: "employee_id", headerName: "Employee id", width: 250 },
+    { field: "priority", headerName: "priority", width: 250 },
     { field: "title", headerName: "Title", width: 250 },
     { field: "description", headerName: "Description", width: 250 },
+    { field: "status", headerName: "Status", width: 250 },
     { field: "start_date", headerName: "Start Date", width: 250 },
     { field: "end_date", headerName: "End Date", width: 250 },
-    { field: "createdAt", headerName: "createdAt", width: 250 },
+
     {
       field: "action",
       headerName: "Action",
@@ -247,6 +272,21 @@ export default function Task() {
                 onChange={getFormData}
                 value={formData?.title}
               />
+              <TextField
+                required
+                label="Priority"
+                name="priority"
+                className={styles.taskInputField}
+                value={formData?.priority}
+                select
+                onChange={(event) => {
+                  getFormData(event);
+                  changepriorityTeam(event);
+                }}
+              >
+                <MenuItem value="low">Low</MenuItem>
+                <MenuItem value="high">High</MenuItem>
+              </TextField>
               <TextField
                 required
                 label="Description"

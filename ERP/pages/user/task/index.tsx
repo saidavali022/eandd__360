@@ -46,7 +46,6 @@ export default function Tasks() {
   const [selectId, setselectId] = useState(0);
   const columns: GridColDef[] = [
     { field: "id", headerName: "S.No", width: 100 },
-    { field: "team", headerName: "Team", width: 250, editable: true },
     { field: "title", headerName: "Title", width: 250 },
     { field: "description", headerName: "Description", width: 250 },
     { field: "start_date", headerName: "Start Date", width: 250 },
@@ -64,7 +63,7 @@ export default function Tasks() {
   const getTaskList = () => {
     axios({
       method: "get",
-      url: `${"/task/get/" + globalState.Employee_id}`,
+      url: `${"/tasks/" + globalState.Employee_id}`,
     })
       .then(function (response: any) {
         if (response.status === 200) {
@@ -88,7 +87,7 @@ export default function Tasks() {
   const updateData = async (event) => {
     await axios({
       method: "put",
-      url: `${"/task/update/" + event.target.id}`,
+      url: `${"/tasks/status/" + event.target.id}`,
       data: {
         status: "completed",
       },
@@ -134,7 +133,15 @@ export default function Tasks() {
     }
     return (
       <Stack direction="row" spacing={2}>
-        <Button variant="contained" color="secondary" id={params.id}>
+        <Button
+          variant="contained"
+          color="secondary"
+          id={params.id}
+          onClick={() => {
+            setanchor(true);
+            setEditId(params.id);
+          }}
+        >
           View
         </Button>
         <Button
@@ -219,34 +226,39 @@ export default function Tasks() {
                 rows={3}
                 value={formData?.description}
               />
-              <TextField
-                type="file"
-                className={styles.taskInputField}
-                name="file"
-              />
+
+              <NextLink href={formData?.attachment}>
+                <a
+                  target="_blank"
+                  style={{ color: "green", fontWeight: "bold", padding: "5px" }}
+                >
+                  View Attachment
+                </a>
+              </NextLink>
+
               <TextField
                 required
                 label="Select Team"
                 name="team"
                 className={styles.taskInputField}
-                select
                 value={formData?.team}
-              >
-                <MenuItem value="SD">SD</MenuItem>
-                <MenuItem value="LG">LG</MenuItem>
-              </TextField>
+              />
+
+              <TextField
+                required
+                label="Priority"
+                name="priority"
+                className={styles.taskInputField}
+                value={formData?.priority}
+              />
 
               <TextField
                 required
                 label="Select Employee"
                 name="employee_id"
                 className={styles.taskInputField}
-                select
                 value={formData?.employee_id}
-              >
-                <MenuItem value="123">shaik</MenuItem>
-                <MenuItem value="1234">saif</MenuItem>
-              </TextField>
+              />
               <TextField
                 required
                 label="Start Date"

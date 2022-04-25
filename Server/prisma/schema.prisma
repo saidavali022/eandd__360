@@ -17,6 +17,7 @@ model task {
   start_date  DateTime
   end_date    DateTime
   status      task_status
+  priority    String? @default("low")
   createdAt   DateTime    @default(now()) @db.Timestamp(6)
 }
 

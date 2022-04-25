@@ -1,11 +1,18 @@
 const express = require("express");
 const app = express();
 import { PrismaClient } from "@prisma/client";
+import { Request, Response } from "express";
 import { resolve } from "path/posix";
 const prisma = new PrismaClient();
 var SUCCESS = "Data Interted Successfully";
 var FAILED = "Data Not Interted";
-export default async function createUser(req: any, res: any) {
+
+export async function getAllUsers(req: Request, res: Response) {
+  const allUsers = await prisma.users.findMany({});
+  return allUsers;
+}
+
+export async function createUser(req: any, res: any) {
   var data = await prisma.users
     .create({
       data: {
