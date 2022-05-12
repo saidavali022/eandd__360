@@ -30,7 +30,7 @@ const sidebarConfig = [
   // },
   {
     title: "Exist Management",
-    path: "/admin/exit",
+    path: "/admin/exits",
     icon: getIcon("eva:file-text-fill"),
   },
   {

@@ -2,16 +2,21 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
+import ListSubheader from "@mui/material/ListSubheader";
+
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import DraftsIcon from "@mui/icons-material/Drafts";
+import SendIcon from "@mui/icons-material/Send";
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
+import StarBorder from "@mui/icons-material/StarBorder";
 // material
 import { alpha, useTheme, styled } from "@mui/material/styles";
-import {
-  Box,
-  List,
-  Collapse,
-  ListItemText,
-  ListItemIcon,
-  ListItemButton,
-} from "@mui/material";
+import { Box, List, Collapse } from "@mui/material";
 import Iconify from "./Iconify";
 
 // NavItem.propTypes = {
@@ -70,6 +75,8 @@ function NavItem({ item, active }: { item: IItem; active: Function }) {
   const handleOpen = () => {
     setOpen((prev) => !prev);
   };
+
+  const [openn, setOpenn] = useState(true);
 
   const activeRootStyle = {
     color: "primary.main",
@@ -173,6 +180,20 @@ NavSection.propTypes = {
 
 export default function NavSection({ navConfig, ...other }: any) {
   const { pathname } = useRouter();
+
+  const [openMenu, setopenMenu] = useState(false);
+  const [openSubMenu, setopenSubMenu] = useState(false);
+
+  const [selectedIndex, setselectedIndex] = useState(0);
+
+  const handleClick = () => {
+    setopenMenu(!openMenu);
+  };
+
+  const openSubMenuClick = (index) => {
+    setselectedIndex(index);
+  };
+
   const match = (path: string) => pathname == path;
 
   return (
@@ -182,6 +203,64 @@ export default function NavSection({ navConfig, ...other }: any) {
           <NavItem key={item.title} item={item} active={match} />
         ))}
       </List>
+      <ListItemButton
+        selected={openMenu}
+        onClick={() => {
+          handleClick();
+        }}
+      >
+        <ListItemIcon>
+          <InboxIcon />
+        </ListItemIcon>
+        <ListItemText primary="Latter Generation" />
+        {openMenu ? <ExpandLess /> : <ExpandMore />}
+      </ListItemButton>
+      <Collapse in={openMenu} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+          <NextLink href="/user/lettergereration/applyleave?type=leave">
+            <ListItemButton
+              selected={1 === selectedIndex}
+              onClick={() => {
+                openSubMenuClick(1);
+              }}
+              sx={{ pl: 4 }}
+            >
+              <ListItemIcon></ListItemIcon>
+              <ListItemText primary="leaves" />
+            </ListItemButton>
+          </NextLink>
+          <NextLink href="/user/lettergereration/applyleave?type=latelogin">
+            <ListItemButton
+              selected={2 === selectedIndex}
+              onClick={() => openSubMenuClick(2)}
+              sx={{ pl: 4 }}
+            >
+              <ListItemIcon></ListItemIcon>
+              <ListItemText primary="Late Login" />
+            </ListItemButton>
+          </NextLink>
+          <NextLink href="/user/lettergereration/applyleave?type=earlylogout">
+            <ListItemButton sx={{ pl: 4 }}>
+              <ListItemIcon></ListItemIcon>
+              <ListItemText primary="Early Logout" />
+            </ListItemButton>
+          </NextLink>
+
+          <NextLink href="/user/lettergereration/comadvsug?type=complaints">
+            <ListItemButton sx={{ pl: 4 }}>
+              <ListItemIcon></ListItemIcon>
+              <ListItemText primary="complaints" />
+            </ListItemButton>
+          </NextLink>
+
+          <NextLink href="/user/lettergereration/comadvsug?type=advices_suggestions">
+            <ListItemButton sx={{ pl: 4 }}>
+              <ListItemIcon></ListItemIcon>
+              <ListItemText primary="Advices/Suggestions" />
+            </ListItemButton>
+          </NextLink>
+        </List>
+      </Collapse>
     </Box>
   );
 }

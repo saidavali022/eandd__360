@@ -38,9 +38,9 @@ import {
 import Label from "@components/Label";
 import { colorStatusPriority } from "@utils/pillColor";
 export default function Tasks() {
+  const [rowData, setrowData] = useState([]);
   const [formData, setformData] = useState();
   const [editId, setEditId] = useState();
-  const [rowData, setrowData] = useState([]);
   const [anchor, setanchor] = useState(false);
   const globalState = useSelector((state) => state.globalState);
   const [selectId, setselectId] = useState(0);
@@ -63,7 +63,7 @@ export default function Tasks() {
   const getTaskList = () => {
     axios({
       method: "get",
-      url: `${"/tasks/" + globalState.Employee_id}`,
+      url: `${"/tasks/" + globalState.Employee_id + "/"}`,
     })
       .then(function (response: any) {
         if (response.status === 200) {
@@ -94,7 +94,6 @@ export default function Tasks() {
     })
       .then((response: any) => {
         if (response.status == 200) {
-          console.log(response.status);
           toast.success("success", {
             theme: "colored",
           });

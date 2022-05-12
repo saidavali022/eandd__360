@@ -12,8 +12,8 @@ const router = Router();
 
 router.get("/", getDetails);
 router.put("/:Id", getTaskDetails);
-router.post("/:Id", upload, getTaskDetails);
-router.get("/:Id", getDetailsById);
+router.post("/:Id", upload.single("file"), getTaskDetails);
+router.get("/:empId", getDetailsById);
 router.put("/status/:Id", updateTaskStatusByID);
 router.delete("/:Id", deleteDetailsById);
 

@@ -97,9 +97,6 @@ export const deleteDetailsById = async (req: any, res: any) => {
 };
 
 export const updateTaskStatusByID = async (req: any, res: any) => {
-  // console.log(req.params);
-  // var Id = parseInt(req.params.Id);
-  // console.log(typeof Id);
   await prisma.task
     .update({
       where: {

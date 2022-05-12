@@ -109,25 +109,10 @@ export default function Task() {
       .then(function (response: any) {
         if (response.status === 200) {
           setrowData(response.data.data);
-          console.info(response);
         }
       })
       .catch(function (error: any) {});
   };
-
-  // const getDepartments = () => {
-  //   axios({
-  //     method: "get",
-  //     url: "user/departments",
-  //   })
-  //     .then(function (response: any) {
-  //       if (response.status === 200) {
-  //         // setrowData(response.data.data);
-  //         console.log(response);
-  //       }
-  //     })
-  //     .catch(function (error: any) {});
-  // };
 
   useEffect(() => {
     getTasklist();

@@ -20,7 +20,7 @@ import useResponsive from "@hooks/useResponsive";
 // components
 import Logo from "@components/Logo";
 import Scrollbar from "@components/Scrollbar";
-import NavSection from "@components/NavSection";
+import NavSection from "@components/NavSectionadmin";
 //
 import sidebarConfig from "./SidebarConfig";
 

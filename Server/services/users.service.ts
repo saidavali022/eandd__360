@@ -7,14 +7,21 @@ const prisma = new PrismaClient();
 var SUCCESS = "Data Interted Successfully";
 var FAILED = "Data Not Interted";
 
-export async function getAllUsers(req: Request, res: Response) {
-  const allUsers = await prisma.users.findMany({});
-  return allUsers;
+export async function getAllUsers(req: Request, res: any) {
+  return await prisma.users.findMany({});
+}
+
+export async function getUsersById(req: Request, res: any) {
+  return await prisma.users.findFirst({
+    where: {
+      employee_id: req.params.empId,
+    },
+  });
 }
 
 export async function createUser(req: any, res: any) {
-  var data = await prisma.users
-    .create({
+  try {
+    var data = await prisma.users.create({
       data: {
         profile_img: req.file.filename,
         email: req.body.email,
@@ -35,11 +42,19 @@ export async function createUser(req: any, res: any) {
         employee_id: req.body.employee_id,
         password: req.body.password,
       },
-    })
-    .then((data: any) => {
-      res.data = { data: data, status: 200, message: SUCCESS };
-    })
-    .catch((error: any) => {
-      res.data = { data: { message: FAILED }, status: 300 };
     });
+    // res.data = { data: data, status: 200, message: SUCCESS };
+    return res.status(200).json({ data: data, status: 200, message: SUCCESS });
+  } catch (error) {
+    console.error(error);
+    res.data = { data: { message: FAILED }, status: 300 };
+    return;
+  }
+
+  // .then((data: any) => {
+  //   return { data: data, status: 200, message: SUCCESS };
+  // })
+  // .catch((error: any) => {
+  //   return { data: { message: FAILED }, status: 300 };
+  // });
 }

@@ -23,11 +23,18 @@ const sidebarConfig = [
     path: "/user/task",
     icon: getIcon("eva:people-fill"),
   },
-  // {
-  //   title: "Attendance",
-  //   path: "/dashboard/attendance",
-  //   icon: getIcon("eva:people-fill"),
-  // },
+
+  {
+    title: "Exist Management",
+    path: "/user/exit",
+    icon: getIcon("eva:file-text-fill"),
+  },
+
+  {
+    title: "Status E-Management",
+    path: "/user/exit/status",
+    icon: getIcon("eva:file-text-fill"),
+  },
 ];
 
 export default sidebarConfig;
