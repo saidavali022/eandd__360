@@ -1,8 +1,5 @@
 import { useState, useEffect } from "react";
-import axios, {
-  toast,
-  ToastContainer_box,
-} from "../../defaultImports/defaultImports";
+import axios, { toast, ToastContainer_box } from "@utils/defaultImports";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
 import Button from "@mui/material/Button";
@@ -16,7 +13,7 @@ import {
   Card,
   Typography,
 } from "@mui/material";
-import styles from "../../../styles/Users.module.css";
+import styles from "@styles/Users.module.css";
 import { setDate } from "date-fns/esm";
 
 export default function index() {

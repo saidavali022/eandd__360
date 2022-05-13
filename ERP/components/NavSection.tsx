@@ -212,12 +212,12 @@ export default function NavSection({ navConfig, ...other }: any) {
         <ListItemIcon>
           <InboxIcon />
         </ListItemIcon>
-        <ListItemText primary="Latter Generation" />
+        <ListItemText primary="Letter Generation" />
         {openMenu ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
       <Collapse in={openMenu} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          <NextLink href="/user/lettergereration/applyleave?type=leave">
+          <NextLink href="/user/letter_generation/applyleave?type=leave">
             <ListItemButton
               selected={1 === selectedIndex}
               onClick={() => {
@@ -226,10 +226,10 @@ export default function NavSection({ navConfig, ...other }: any) {
               sx={{ pl: 4 }}
             >
               <ListItemIcon></ListItemIcon>
-              <ListItemText primary="leaves" />
+              <ListItemText primary="Leaves" />
             </ListItemButton>
           </NextLink>
-          <NextLink href="/user/lettergereration/applyleave?type=latelogin">
+          <NextLink href="/user/letter_generation/applyleave?type=latelogin">
             <ListItemButton
               selected={2 === selectedIndex}
               onClick={() => openSubMenuClick(2)}
@@ -239,21 +239,21 @@ export default function NavSection({ navConfig, ...other }: any) {
               <ListItemText primary="Late Login" />
             </ListItemButton>
           </NextLink>
-          <NextLink href="/user/lettergereration/applyleave?type=earlylogout">
+          <NextLink href="/user/letter_generation/applyleave?type=earlylogout">
             <ListItemButton sx={{ pl: 4 }}>
               <ListItemIcon></ListItemIcon>
               <ListItemText primary="Early Logout" />
             </ListItemButton>
           </NextLink>
 
-          <NextLink href="/user/lettergereration/comadvsug?type=complaints">
+          <NextLink href="/user/letter_generation/comadvsug?type=complaints">
             <ListItemButton sx={{ pl: 4 }}>
               <ListItemIcon></ListItemIcon>
-              <ListItemText primary="complaints" />
+              <ListItemText primary="Complaints" />
             </ListItemButton>
           </NextLink>
 
-          <NextLink href="/user/lettergereration/comadvsug?type=advices_suggestions">
+          <NextLink href="/user/letter_generation/comadvsug?type=advices_suggestions">
             <ListItemButton sx={{ pl: 4 }}>
               <ListItemIcon></ListItemIcon>
               <ListItemText primary="Advices/Suggestions" />

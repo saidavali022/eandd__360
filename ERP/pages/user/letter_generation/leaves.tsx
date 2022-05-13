@@ -1,12 +1,9 @@
 import { useState, useEffect, useMemo } from "react";
-import axios, {
-  toast,
-  ToastContainer_box,
-} from "../../defaultImports/defaultImports";
+import axios, { toast, ToastContainer_box } from "@utils/defaultImports";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
 import UserDashboardLayout from "@layouts/userdashboard";
-import styles from "../../../styles/Users.module.css";
+import styles from "@styles/Users.module.css";
 import Page from "@components/Page";
 import {
   Container,
@@ -19,7 +16,7 @@ import {
   Drawer,
 } from "@mui/material";
 
-import Leavelist from "pages/components/lettergeneration/Leavelist";
+import Leavelist from "pages/components/letter_generation/LeaveList";
 import { useRouter } from "next/router";
 const leaves = () => {
   const router = useRouter();

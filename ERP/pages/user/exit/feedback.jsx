@@ -1,11 +1,8 @@
 import { useState, React, useEffect } from "react";
 import UserDashboardLayout from "@layouts/userdashboard";
 import Page from "@components/Page";
-import styles from "../../../styles/Users.module.css";
-import axios, {
-  toast,
-  ToastContainer_box,
-} from "../../defaultImports/defaultImports";
+import styles from "@styles/Users.module.css";
+import axios, { toast, ToastContainer_box } from "@utils/defaultImports";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
 import {

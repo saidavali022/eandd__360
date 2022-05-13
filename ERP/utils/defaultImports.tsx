@@ -1,5 +1,5 @@
 const axios = require("axios");
-axios.defaults.baseURL = "http://192.168.1.187:3001";
+axios.defaults.baseURL = "http://localhost:3001";
 import { ToastContainer, toast } from "react-toastify";
 const ToastContainer_box = (
   <ToastContainer

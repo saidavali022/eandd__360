@@ -1,10 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import UserDashboardLayout from "@layouts/userdashboard";
 import NextLink from "next/link";
-import axios, {
-  toast,
-  ToastContainer_box,
-} from "../../defaultImports/defaultImports";
+import axios, { toast, ToastContainer_box } from "@utils/defaultImports";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
 // material
@@ -22,7 +19,7 @@ import {
 // components
 import Page from "@components/Page";
 import { fDate } from "@utils/formatTime";
-import styles from "../../../styles/Users.module.css";
+import styles from "@styles/Users.module.css";
 import Drawer from "@mui/material/Drawer";
 
 import clsx from "clsx";
@@ -166,118 +163,124 @@ export default function Tasks() {
 
   return (
     <Page title="Tasks | E & D 360">
-      <Stack
-        direction="column"
-        alignItems="start"
-        justifyContent="space-between"
-        mb={5}
-      >
-        <Typography variant="h4" gutterBottom>
-          Tasks
-        </Typography>
-        <Breadcrumbs aria-label="breadcrumb">
-          <NextLink href="/dashboard">Dashboard</NextLink>
-          <Typography color="text.primary">Tasks</Typography>
-        </Breadcrumbs>
-      </Stack>
-      <Card
-        sx={{
-          height: 650,
-          width: 1,
-        }}
-      >
-        <DataGrid
-          rows={rowData}
-          columns={columns}
-          pageSize={10}
-          rowsPerPageOptions={[10]}
-          checkboxSelection
-        />
-      </Card>
-      <Drawer anchor="right" open={anchor} onClose={() => setanchor(false)}>
-        <Box sx={{ width: 450 }}>
-          <Container>
-            <form>
-              <Typography variant="h4" sx={{ mt: 4 }}>
-                Add Task
-              </Typography>
+      <Container>
+        <Stack
+          direction="column"
+          alignItems="start"
+          justifyContent="space-between"
+          mb={5}
+        >
+          <Typography variant="h4" gutterBottom>
+            Tasks
+          </Typography>
+          <Breadcrumbs aria-label="breadcrumb">
+            <NextLink href="/user">Dashboard</NextLink>
+            <Typography color="text.primary">Tasks</Typography>
+          </Breadcrumbs>
+        </Stack>
+        <Card
+          sx={{
+            height: 650,
+            width: 1,
+          }}
+        >
+          <DataGrid
+            rows={rowData}
+            columns={columns}
+            pageSize={10}
+            rowsPerPageOptions={[10]}
+            checkboxSelection
+          />
+        </Card>
+        <Drawer anchor="right" open={anchor} onClose={() => setanchor(false)}>
+          <Box sx={{ width: 450 }}>
+            <Container>
+              <form>
+                <Typography variant="h4" sx={{ mt: 4 }}>
+                  Add Task
+                </Typography>
 
-              <TextField name="id" type="hidden" value={formData?.id} />
-              <TextField
-                name="attachment"
-                type="hidden"
-                value={formData?.attachment}
-              />
+                <TextField name="id" type="hidden" value={formData?.id} />
+                <TextField
+                  name="attachment"
+                  type="hidden"
+                  value={formData?.attachment}
+                />
 
-              <TextField
-                required
-                label="Title"
-                name="title"
-                className={styles.taskInputField}
-                value={formData?.title}
-              />
-              <TextField
-                required
-                label="Description"
-                name="description"
-                className={styles.taskInputField}
-                multiline
-                rows={3}
-                value={formData?.description}
-              />
+                <TextField
+                  required
+                  label="Title"
+                  name="title"
+                  className={styles.taskInputField}
+                  value={formData?.title}
+                />
+                <TextField
+                  required
+                  label="Description"
+                  name="description"
+                  className={styles.taskInputField}
+                  multiline
+                  rows={3}
+                  value={formData?.description}
+                />
 
-              <NextLink href={formData?.attachment}>
-                <a
-                  target="_blank"
-                  style={{ color: "green", fontWeight: "bold", padding: "5px" }}
-                >
-                  View Attachment
-                </a>
-              </NextLink>
+                <NextLink href={formData?.attachment}>
+                  <a
+                    target="_blank"
+                    style={{
+                      color: "green",
+                      fontWeight: "bold",
+                      padding: "5px",
+                    }}
+                  >
+                    View Attachment
+                  </a>
+                </NextLink>
 
-              <TextField
-                required
-                label="Select Team"
-                name="team"
-                className={styles.taskInputField}
-                value={formData?.team}
-              />
+                <TextField
+                  required
+                  label="Select Team"
+                  name="team"
+                  className={styles.taskInputField}
+                  value={formData?.team}
+                />
 
-              <TextField
-                required
-                label="Priority"
-                name="priority"
-                className={styles.taskInputField}
-                value={formData?.priority}
-              />
+                <TextField
+                  required
+                  label="Priority"
+                  name="priority"
+                  className={styles.taskInputField}
+                  value={formData?.priority}
+                />
 
-              <TextField
-                required
-                label="Select Employee"
-                name="employee_id"
-                className={styles.taskInputField}
-                value={formData?.employee_id}
-              />
-              <TextField
-                required
-                label="Start Date"
-                name="start_date"
-                className={styles.taskInputField}
-                value={formData?.start_date}
-              />
+                <TextField
+                  required
+                  label="Select Employee"
+                  name="employee_id"
+                  className={styles.taskInputField}
+                  value={formData?.employee_id}
+                />
+                <TextField
+                  required
+                  label="Start Date"
+                  name="start_date"
+                  className={styles.taskInputField}
+                  value={formData?.start_date}
+                />
 
-              <TextField
-                required
-                label="End Date"
-                name="end_date"
-                className={styles.taskInputField}
-                value={formData?.end_date}
-              />
-            </form>
-          </Container>
-        </Box>
-      </Drawer>
-      {ToastContainer_box}
+                <TextField
+                  required
+                  label="End Date"
+                  name="end_date"
+                  className={styles.taskInputField}
+                  value={formData?.end_date}
+                />
+              </form>
+            </Container>
+          </Box>
+        </Drawer>
+        {ToastContainer_box}
+      </Container>
     </Page>
   );
 }

@@ -1,7 +1,7 @@
 import React from "react";
 
 const SubLayout = ({ children }: any) => {
-  return <div>helfsdfdasddslo{children}</div>;
+  return <div>{children}</div>;
 };
 
 export default SubLayout;

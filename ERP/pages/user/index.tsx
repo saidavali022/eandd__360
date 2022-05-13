@@ -10,6 +10,7 @@ import {
   InputLabel,
 } from "@mui/material";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
+import UserDashboardLayout from "@layouts/userdashboard";
 // components
 import Page from "@components/Page";
 import NextHead from "next/head";
@@ -148,3 +149,7 @@ export default function DashboardApp() {
     </>
   );
 }
+
+DashboardApp.getLayout = (page) => (
+  <UserDashboardLayout>{page}</UserDashboardLayout>
+);

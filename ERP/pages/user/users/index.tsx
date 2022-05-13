@@ -1,6 +1,7 @@
 import { filter } from "lodash";
 import { sentenceCase } from "change-case";
 import { useState } from "react";
+import UserDashboardLayout from "@layouts/userdashboard";
 import NextLink from "next/link";
 // material
 import {
@@ -8,6 +9,7 @@ import {
   Table,
   Stack,
   Avatar,
+  Breadcrumbs,
   Button,
   Checkbox,
   TableRow,
@@ -143,7 +145,7 @@ export default function User() {
   const isUserNotFound = filteredUsers.length === 0;
 
   return (
-    <Page title="User | E&amps;D 360">
+    <Page title="User | E & D 360">
       <Container>
         <Stack
           direction="row"
@@ -151,9 +153,22 @@ export default function User() {
           justifyContent="space-between"
           mb={5}
         >
-          <Typography variant="h4" gutterBottom>
-            Users
-          </Typography>
+          <Stack
+            direction="column"
+            alignItems="start"
+            justifyContent="space-between"
+            mb={5}
+          >
+            <Typography variant="h4" gutterBottom>
+              Users
+            </Typography>
+            <Breadcrumbs aria-label="breadcrumb">
+              <NextLink color="inherit" href="/user">
+                Dashboard
+              </NextLink>
+              <Typography color="text.primary">User</Typography>
+            </Breadcrumbs>
+          </Stack>
           <NextLink href="#">
             <Button
               variant="contained"
@@ -280,3 +295,5 @@ export default function User() {
     </Page>
   );
 }
+
+User.getLayout = (page) => <UserDashboardLayout>{page}</UserDashboardLayout>;

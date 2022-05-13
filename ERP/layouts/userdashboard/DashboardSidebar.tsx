@@ -78,7 +78,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
       </Box>
 
       <Box sx={{ mb: 5, mx: 2.5 }}>
-        <NextLink href="/dashboard/users/profile">
+        <NextLink href="/user/profile">
           <Link underline="none">
             <AccountStyle>
               <Avatar src={account.photoURL} alt="photoURL" />

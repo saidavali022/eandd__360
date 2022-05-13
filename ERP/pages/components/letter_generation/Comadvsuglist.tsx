@@ -1,5 +1,5 @@
 import { useMemo, useState, useEffect } from "react";
-import styles from "../../../styles/Users.module.css";
+import styles from "@styles/Users.module.css";
 import {
   DataGrid,
   GridColDef,

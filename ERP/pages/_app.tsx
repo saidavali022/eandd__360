@@ -30,9 +30,11 @@ const MyApp: React.FunctionComponent<AppPropsWithLayout> = (props) => {
   return pageLayout(
     <>
       <Provider store={store}>
-        <ThemeConfig>
-          <Component {...pageProps} />
-        </ThemeConfig>
+        <SessionProvider session={session}>
+          <ThemeConfig>
+            <Component {...pageProps} />
+          </ThemeConfig>
+        </SessionProvider>
       </Provider>
     </>
   );

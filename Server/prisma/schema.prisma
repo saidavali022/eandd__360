@@ -120,20 +120,20 @@ model task {
 
 model users {
   id             Int     @id @default(autoincrement())
-  firstname      String
-  lastname       String
+  first_name      String
+  last_name       String
   email          String  @unique
   phone          String
   dob            String
   gender         String
   country        String
   city           String
-  zipcode        String
-  sudoName       String
-  Blood_Group    String
-  Marital_Status String
-  Department     String
-  Designation    String
+  zip_code        String
+  sudo_name       String
+  blood_group    String
+  marital_status String
+  department     String
+  designation    String
   doj            String
   employee_id    String
   password       String
@@ -207,7 +207,7 @@ enum feedback_status {
 }
 
 enum task_status {
-  pendding
+  pending
   completed
   started
   EMPTY_ENUM_VALUE @map("")

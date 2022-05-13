@@ -9,23 +9,23 @@ const getIcon = (name: string) => (
 
 const sidebarConfig = [
   {
-    title: "dashboard",
+    title: "Dashboard",
     path: "/user",
     icon: getIcon("eva:pie-chart-2-fill"),
   },
   {
-    title: "user",
+    title: "User",
     path: "/user/users",
     icon: getIcon("eva:people-fill"),
   },
   {
-    title: "task",
-    path: "/user/task",
+    title: "Task",
+    path: "/user/tasks",
     icon: getIcon("eva:people-fill"),
   },
 
   {
-    title: "Exist Management",
+    title: "Exit Management",
     path: "/user/exit",
     icon: getIcon("eva:file-text-fill"),
   },

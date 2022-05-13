@@ -1,13 +1,10 @@
 import { useEffect, useState } from "react";
-import styles from "../../../styles/Users.module.css";
+import styles from "@styles/Users.module.css";
 import Drawer from "@mui/material/Drawer";
 import Iconify from "@components/Iconify";
 import { useSelector, useDispatch } from "react-redux";
 import DashboardLayout from "@layouts/dashboard";
-import axios, {
-  toast,
-  ToastContainer_box,
-} from "../../defaultImports/defaultImports";
+import axios, { toast, ToastContainer_box } from "@utils/defaultImports";
 import "react-toastify/dist/ReactToastify.css";
 import {
   DataGrid,
@@ -25,6 +22,7 @@ import {
   Button,
   Container,
   Typography,
+  Breadcrumbs,
   Box,
   TextField,
   MenuItem,
@@ -33,6 +31,7 @@ import {
 // components
 import Page from "@components/Page";
 import { useMemo } from "react";
+import NextLink from "next/link";
 //-----------------------
 
 export default function Task() {
@@ -201,12 +200,22 @@ export default function Task() {
           justifyContent="space-between"
           mb={5}
         >
-          {/* <Button onClick={() => dispatch(actions.incNumber())}>Inc</Button> */}
-          {/* 
-          <p>{todo.count}</p> */}
-          <Typography variant="h4" gutterBottom>
-            Task List
-          </Typography>
+          <Stack
+            direction="column"
+            alignItems="start"
+            justifyContent="space-between"
+            mb={5}
+          >
+            <Typography variant="h4" gutterBottom>
+              Tasks
+            </Typography>
+            <Breadcrumbs aria-label="breadcrumb">
+              <NextLink color="inherit" href="/admin">
+                Dashboard
+              </NextLink>
+              <Typography color="text.primary">Tasks</Typography>
+            </Breadcrumbs>
+          </Stack>
 
           <Button
             variant="contained"
@@ -220,155 +229,156 @@ export default function Task() {
             Add Task
           </Button>
         </Stack>
-      </Container>
-      <div style={{ height: 650, width: "100%" }}>
-        <DataGrid
-          rows={rowData}
-          columns={columns}
-          pageSize={10}
-          rowsPerPageOptions={[10]}
-          checkboxSelection
-          components={{
-            Toolbar: GridToolbar,
-          }}
-        />
-      </div>
 
-      <Drawer anchor="right" open={anchor} onClose={() => setanchor(false)}>
-        <Box sx={{ width: 450 }}>
-          <Container>
-            <form onSubmit={submitFormData}>
-              <Typography variant="h4" sx={{ mt: 4 }}>
-                Add Task
-              </Typography>
+        <div style={{ height: 650, width: "100%" }}>
+          <DataGrid
+            rows={rowData}
+            columns={columns}
+            pageSize={10}
+            rowsPerPageOptions={[10]}
+            checkboxSelection
+            components={{
+              Toolbar: GridToolbar,
+            }}
+          />
+        </div>
 
-              <TextField name="id" type="hidden" value={formData?.id} />
-              <TextField
-                name="attachment"
-                type="hidden"
-                value={formData?.attachment}
-              />
-
-              <TextField
-                required
-                label="Title"
-                name="title"
-                className={styles.taskInputField}
-                onChange={getFormData}
-                value={formData?.title}
-              />
-              <TextField
-                required
-                label="Priority"
-                name="priority"
-                className={styles.taskInputField}
-                value={formData?.priority}
-                select
-                onChange={(event) => {
-                  getFormData(event);
-                  changepriorityTeam(event);
-                }}
-              >
-                <MenuItem value="low">Low</MenuItem>
-                <MenuItem value="high">High</MenuItem>
-              </TextField>
-              <TextField
-                required
-                label="Description"
-                name="description"
-                className={styles.taskInputField}
-                multiline
-                rows={3}
-                value={formData?.description}
-                onChange={getFormData}
-              />
-              <TextField
-                type="file"
-                className={styles.taskInputField}
-                onChange={getFormData}
-                name="file"
-              />
-              <TextField
-                required
-                label="Select Team"
-                name="team"
-                className={styles.taskInputField}
-                select
-                onChange={(event) => {
-                  getFormData(event);
-                  changeoptionTeam(event);
-                }}
-                value={formData?.team}
-              >
-                <MenuItem value="SD">SD</MenuItem>
-                <MenuItem value="LG">LG</MenuItem>
-              </TextField>
-
-              <TextField
-                required
-                label="Select Employee"
-                name="employee_id"
-                className={styles.taskInputField}
-                select
-                value={formData?.employee_id}
-                onChange={(event) => {
-                  getFormData(event);
-                  changeoptionEmp(event);
-                }}
-              >
-                <MenuItem value="123">shaik</MenuItem>
-                <MenuItem value="1234">saif</MenuItem>
-              </TextField>
-              <TextField
-                required
-                label="Start Date"
-                name="start_date"
-                type={InputDate}
-                onChange={getFormData}
-                className={styles.taskInputField}
-                onClick={(e) => {
-                  setInputDate("date");
-                }}
-                onBlur={() => {
-                  setInputDate("text");
-                }}
-                value={formData?.start_date}
-              />
-
-              <TextField
-                required
-                label="End Date"
-                name="end_date"
-                type={InputDate}
-                onChange={getFormData}
-                className={styles.taskInputField}
-                onFocus={(e) => {
-                  setInputDate("date");
-                }}
-                onBlur={() => {
-                  setInputDate("text");
-                }}
-                value={formData?.end_date}
-              />
-
-              <Stack
-                direction="row"
-                justifyContent="flex-end"
-                alignItems="center"
-                spacing={3}
-              >
-                <Button type="submit" variant="contained">
+        <Drawer anchor="right" open={anchor} onClose={() => setanchor(false)}>
+          <Box sx={{ width: 450 }}>
+            <Container>
+              <form onSubmit={submitFormData}>
+                <Typography variant="h4" sx={{ mt: 4 }}>
                   Add Task
-                </Button>
-                <Button type="reset" variant="contained" color="secondary">
-                  Reset
-                </Button>
-              </Stack>
-            </form>
-          </Container>
-        </Box>
-      </Drawer>
-      {ToastContainer_box}
+                </Typography>
+
+                <TextField name="id" type="hidden" value={formData?.id} />
+                <TextField
+                  name="attachment"
+                  type="hidden"
+                  value={formData?.attachment}
+                />
+
+                <TextField
+                  required
+                  label="Title"
+                  name="title"
+                  className={styles.taskInputField}
+                  onChange={getFormData}
+                  value={formData?.title}
+                />
+                <TextField
+                  required
+                  label="Priority"
+                  name="priority"
+                  className={styles.taskInputField}
+                  value={formData?.priority}
+                  select
+                  onChange={(event) => {
+                    getFormData(event);
+                    changepriorityTeam(event);
+                  }}
+                >
+                  <MenuItem value="low">Low</MenuItem>
+                  <MenuItem value="high">High</MenuItem>
+                </TextField>
+                <TextField
+                  required
+                  label="Description"
+                  name="description"
+                  className={styles.taskInputField}
+                  multiline
+                  rows={3}
+                  value={formData?.description}
+                  onChange={getFormData}
+                />
+                <TextField
+                  type="file"
+                  className={styles.taskInputField}
+                  onChange={getFormData}
+                  name="file"
+                />
+                <TextField
+                  required
+                  label="Select Team"
+                  name="team"
+                  className={styles.taskInputField}
+                  select
+                  onChange={(event) => {
+                    getFormData(event);
+                    changeoptionTeam(event);
+                  }}
+                  value={formData?.team}
+                >
+                  <MenuItem value="SD">SD</MenuItem>
+                  <MenuItem value="LG">LG</MenuItem>
+                </TextField>
+
+                <TextField
+                  required
+                  label="Select Employee"
+                  name="employee_id"
+                  className={styles.taskInputField}
+                  select
+                  value={formData?.employee_id}
+                  onChange={(event) => {
+                    getFormData(event);
+                    changeoptionEmp(event);
+                  }}
+                >
+                  <MenuItem value="123">shaik</MenuItem>
+                  <MenuItem value="1234">saif</MenuItem>
+                </TextField>
+                <TextField
+                  required
+                  label="Start Date"
+                  name="start_date"
+                  type={InputDate}
+                  onChange={getFormData}
+                  className={styles.taskInputField}
+                  onClick={(e) => {
+                    setInputDate("date");
+                  }}
+                  onBlur={() => {
+                    setInputDate("text");
+                  }}
+                  value={formData?.start_date}
+                />
+
+                <TextField
+                  required
+                  label="End Date"
+                  name="end_date"
+                  type={InputDate}
+                  onChange={getFormData}
+                  className={styles.taskInputField}
+                  onFocus={(e) => {
+                    setInputDate("date");
+                  }}
+                  onBlur={() => {
+                    setInputDate("text");
+                  }}
+                  value={formData?.end_date}
+                />
+
+                <Stack
+                  direction="row"
+                  justifyContent="flex-end"
+                  alignItems="center"
+                  spacing={3}
+                >
+                  <Button type="submit" variant="contained">
+                    Add Task
+                  </Button>
+                  <Button type="reset" variant="contained" color="secondary">
+                    Reset
+                  </Button>
+                </Stack>
+              </form>
+            </Container>
+          </Box>
+        </Drawer>
+        {ToastContainer_box}
+      </Container>
     </Page>
   );
 }

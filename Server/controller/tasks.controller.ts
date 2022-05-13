@@ -25,7 +25,7 @@ export async function getTaskDetails(req: any, res: any) {
         description: req.body.description,
         attachment: req.file?.filename || req.body.attachment,
         team: req.body.team,
-        status: "pendding",
+        status: "pending",
         priority: req.body.priority,
         employee_id: req.body.employee_id,
         start_date: new Date(req.body.start_date),

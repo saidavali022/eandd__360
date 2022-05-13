@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from "react";
 import DashboardLayout from "@layouts/dashboard";
-import styles from "../../../styles/Users.module.css";
+import styles from "@styles/Users.module.css";
 import Page from "@components/Page";
 import NextLink from "next/link";
 
@@ -10,10 +10,7 @@ import {
   GridRenderCellParams,
   GridToolbar,
 } from "@mui/x-data-grid";
-import axios, {
-  toast,
-  ToastContainer_box,
-} from "../../defaultImports/defaultImports";
+import axios, { toast, ToastContainer_box } from "@utils/defaultImports";
 import "react-toastify/dist/ReactToastify.css";
 import {
   Stack,
@@ -109,182 +106,191 @@ const index = () => {
 
   return (
     <Page>
-      <div style={{ height: 650, width: "100%" }}>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          pageSize={10}
-          rowsPerPageOptions={[10]}
-          checkboxSelection
-          components={{
-            Toolbar: GridToolbar,
-          }}
-        />
-      </div>
+      <Container>
+        <div style={{ height: 650, width: "100%" }}>
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            pageSize={10}
+            rowsPerPageOptions={[10]}
+            checkboxSelection
+            components={{
+              Toolbar: GridToolbar,
+            }}
+          />
+        </div>
 
-      <Drawer anchor="right" open={anchor} onClose={() => setanchor(false)}>
-        <Box sx={{ width: 550 }}>
-          <Container>
-            <Typography variant="h4" sx={{ mt: 4 }}>
-              View Resignation Letter
-            </Typography>
-            <Card>
-              <TextField
-                required
-                label="Employee Id"
-                name="employee_id"
-                className={styles.taskInputField}
-                value={formData?.employee_id}
-                InputProps={{
-                  readOnly: true,
-                }}
-              />
-              <TextField
-                required
-                label="create_at"
-                name="create_at"
-                className={styles.taskInputField}
-                value={formData?.create_at}
-                InputProps={{
-                  readOnly: true,
-                }}
-              />
-              <TextField
-                required
-                label="start_date"
-                name="start_date"
-                className={styles.taskInputField}
-                value={formData?.start_date}
-                InputProps={{
-                  readOnly: true,
-                }}
-              />
-              <TextField
-                required
-                label="end_date"
-                name="end_date"
-                className={styles.taskInputField}
-                value={formData?.end_date}
-                InputProps={{
-                  readOnly: true,
-                }}
-              />
-              <TextField
-                required
-                label="status"
-                name="status"
-                className={styles.taskInputField}
-                value={formData?.status}
-                InputProps={{
-                  readOnly: true,
-                }}
-              />
+        <Drawer anchor="right" open={anchor} onClose={() => setanchor(false)}>
+          <Box sx={{ width: 550 }}>
+            <Container>
+              <Typography variant="h4" sx={{ mt: 4 }}>
+                View Resignation Letter
+              </Typography>
+              <Card>
+                <TextField
+                  required
+                  label="Employee Id"
+                  name="employee_id"
+                  className={styles.taskInputField}
+                  value={formData?.employee_id}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                />
+                <TextField
+                  required
+                  label="create_at"
+                  name="create_at"
+                  className={styles.taskInputField}
+                  value={formData?.create_at}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                />
+                <TextField
+                  required
+                  label="start_date"
+                  name="start_date"
+                  className={styles.taskInputField}
+                  value={formData?.start_date}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                />
+                <TextField
+                  required
+                  label="end_date"
+                  name="end_date"
+                  className={styles.taskInputField}
+                  value={formData?.end_date}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                />
+                <TextField
+                  required
+                  label="status"
+                  name="status"
+                  className={styles.taskInputField}
+                  value={formData?.status}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                />
 
-              <TextField
-                required
-                label="Reason"
-                name="Reason"
-                className={styles.taskInputField}
-                multiline="true"
-                minRows="4"
-                value={formData?.reason}
-              />
+                <TextField
+                  required
+                  label="Reason"
+                  name="Reason"
+                  className={styles.taskInputField}
+                  multiline="true"
+                  minRows="4"
+                  value={formData?.reason}
+                />
 
-              <Stack direction="row" spacing={2}>
-                {formData?.status == "pending" ? (
-                  <Stack direction="row" spacing={2}>
-                    <Button
-                      variant="contained"
-                      id="accepted"
-                      onClick={() => updateStatus("status", "accepted")}
-                    >
-                      Accept
-                    </Button>
-                    <Button
-                      variant="contained"
-                      id="rejected"
-                      onClick={() => updateStatus("status", "rejected")}
-                    >
-                      Reject
-                    </Button>
-                  </Stack>
-                ) : (
-                  <Stack direction="row" spacing={2}>
-                    <Button disabled variant="contained">
-                      {formData?.status}
-                    </Button>
+                <Stack direction="row" spacing={2}>
+                  {formData?.status == "pending" ? (
+                    <Stack direction="row" spacing={2}>
+                      <Button
+                        variant="contained"
+                        id="accepted"
+                        onClick={() => updateStatus("status", "accepted")}
+                      >
+                        Accept
+                      </Button>
+                      <Button
+                        variant="contained"
+                        id="rejected"
+                        onClick={() => updateStatus("status", "rejected")}
+                      >
+                        Reject
+                      </Button>
+                    </Stack>
+                  ) : (
+                    <Stack direction="row" spacing={2}>
+                      <Button disabled variant="contained">
+                        {formData?.status}
+                      </Button>
 
-                    {formData?.status == "accepted" && (
-                      <Stack direction="row" spacing={2}>
-                        {formData?.send_feedback_form == "completed" ? (
-                          <Stack direction="row" spacing={2}>
+                      {formData?.status == "accepted" && (
+                        <Stack direction="row" spacing={2}>
+                          {formData?.send_feedback_form == "completed" ? (
+                            <Stack direction="row" spacing={2}>
+                              <NextLink
+                                href={{
+                                  pathname: "./exits/feedback",
+                                  query: { empId: formData?.employee_id },
+                                }}
+                              >
+                                <Button variant="contained">
+                                  View FeedBack
+                                </Button>
+                              </NextLink>
+
+                              {formData?.send_check_list == "pending" && (
+                                <Button
+                                  variant="contained"
+                                  onClick={() =>
+                                    updateStatus("send_check_list", "awaiting")
+                                  }
+                                >
+                                  Send Check List
+                                </Button>
+                              )}
+                            </Stack>
+                          ) : (
+                            <Stack direction="row" spacing={2}>
+                              {formData?.send_feedback_form == "awaiting" ? (
+                                <Button variant="contained">
+                                  Awaiting Feed Back
+                                </Button>
+                              ) : (
+                                <Button
+                                  variant="contained"
+                                  onClick={() =>
+                                    updateStatus(
+                                      "send_feedback_form",
+                                      "awaiting"
+                                    )
+                                  }
+                                >
+                                  Send FeedBack
+                                </Button>
+                              )}
+                            </Stack>
+                          )}
+
+                          {formData?.send_check_list == "completed" ? (
                             <NextLink
                               href={{
-                                pathname: "./exits/feedback",
+                                pathname: "./exits/checklist",
                                 query: { empId: formData?.employee_id },
                               }}
                             >
-                              <Button variant="contained">View FeedBack</Button>
+                              <Button variant="contained">
+                                View Check List
+                              </Button>
                             </NextLink>
-
-                            {formData?.send_check_list == "pending" && (
-                              <Button
-                                variant="contained"
-                                onClick={() =>
-                                  updateStatus("send_check_list", "awaiting")
-                                }
-                              >
-                                Send Check List
-                              </Button>
-                            )}
-                          </Stack>
-                        ) : (
-                          <Stack direction="row" spacing={2}>
-                            {formData?.send_feedback_form == "awaiting" ? (
-                              <Button variant="contained">
-                                Awaiting Feed Back
-                              </Button>
-                            ) : (
-                              <Button
-                                variant="contained"
-                                onClick={() =>
-                                  updateStatus("send_feedback_form", "awaiting")
-                                }
-                              >
-                                Send FeedBack
-                              </Button>
-                            )}
-                          </Stack>
-                        )}
-
-                        {formData?.send_check_list == "completed" ? (
-                          <NextLink
-                            href={{
-                              pathname: "./exits/checklist",
-                              query: { empId: formData?.employee_id },
-                            }}
-                          >
-                            <Button variant="contained">View Check List</Button>
-                          </NextLink>
-                        ) : (
-                          <Stack direction="row" spacing={2}>
-                            {formData?.send_check_list == "awaiting" && (
-                              <Button variant="contained">
-                                Awaiting CheckList
-                              </Button>
-                            )}
-                          </Stack>
-                        )}
-                      </Stack>
-                    )}
-                  </Stack>
-                )}
-              </Stack>
-            </Card>
-          </Container>
-        </Box>
-      </Drawer>
-      {ToastContainer_box}
+                          ) : (
+                            <Stack direction="row" spacing={2}>
+                              {formData?.send_check_list == "awaiting" && (
+                                <Button variant="contained">
+                                  Awaiting CheckList
+                                </Button>
+                              )}
+                            </Stack>
+                          )}
+                        </Stack>
+                      )}
+                    </Stack>
+                  )}
+                </Stack>
+              </Card>
+            </Container>
+          </Box>
+        </Drawer>
+        {ToastContainer_box}
+      </Container>
     </Page>
   );
 };

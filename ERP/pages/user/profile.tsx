@@ -1,6 +1,7 @@
 import { filter } from "lodash";
 import { sentenceCase } from "change-case";
 import { useState } from "react";
+import UserDashboardLayout from "@layouts/userdashboard";
 import NextLink from "next/link";
 // material
 import {
@@ -86,7 +87,7 @@ export default function Profile() {
               Users
             </Typography>
             <Breadcrumbs aria-label="breadcrumb">
-              <NextLink color="inherit" href="/dashboard">
+              <NextLink color="inherit" href="/user">
                 Dashboard
               </NextLink>
               <Typography color="text.primary">Profile</Typography>
@@ -134,3 +135,5 @@ export default function Profile() {
     </Page>
   );
 }
+
+Profile.getLayout = (page) => <UserDashboardLayout>{page}</UserDashboardLayout>;

@@ -4,16 +4,22 @@ import NextLink from "next/link";
 import DashboardLayout from "@layouts/dashboard";
 // require("dotenv").config();
 // material
-import { Stack, Button, Container, Typography } from "@mui/material";
+import {
+  Stack,
+  Button,
+  Container,
+  Typography,
+  Breadcrumbs,
+} from "@mui/material";
 // components
 import Page from "@components/Page";
 import Iconify from "@components/Iconify";
-import axios from "../../defaultImports/defaultImports";
+import axios from "@utils/defaultImports";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", minWidth: 200 },
-  { field: "firstname", headerName: "First name", minWidth: 200 },
-  { field: "lastname", headerName: "Last name", minWidth: 200 },
+  { field: "first_name", headerName: "First name", minWidth: 200 },
+  { field: "last_name", headerName: "Last name", minWidth: 200 },
   {
     field: "email",
     headerName: "Email",
@@ -45,32 +51,32 @@ const columns: GridColDef[] = [
     headerName: "City",
   },
   {
-    field: "zipcode",
+    field: "zip_code",
     minWidth: 200,
-    headerName: "ZIpCode",
+    headerName: "Zip Code",
   },
   {
-    field: "sudoName",
+    field: "sudo_name",
     minWidth: 200,
-    headerName: "Sudo Name",
+    headerName: "sudo Name",
   },
   {
-    field: "Blood_Group",
+    field: "blood_group",
     minWidth: 200,
     headerName: "Blood Group",
   },
   {
-    field: "Marital_Status",
+    field: "marital_status",
     minWidth: 200,
     headerName: "Marital Status",
   },
   {
-    field: "Department",
+    field: "department",
     minWidth: 200,
     headerName: "Department",
   },
   {
-    field: "Designation",
+    field: "designation",
     minWidth: 200,
     headerName: "Designation",
   },
@@ -114,9 +120,22 @@ export default function User() {
           justifyContent="space-between"
           mb={5}
         >
-          <Typography variant="h4" gutterBottom>
-            Users {process.env.DB_HOST}
-          </Typography>
+          <Stack
+            direction="column"
+            alignItems="start"
+            justifyContent="space-between"
+            mb={5}
+          >
+            <Typography variant="h4" gutterBottom>
+              Users
+            </Typography>
+            <Breadcrumbs aria-label="breadcrumb">
+              <NextLink color="inherit" href="/admin">
+                Dashboard
+              </NextLink>
+              <Typography color="text.primary">Users</Typography>
+            </Breadcrumbs>
+          </Stack>
           <NextLink href="./users/create">
             <Button
               variant="contained"
@@ -126,17 +145,17 @@ export default function User() {
             </Button>
           </NextLink>
         </Stack>
-      </Container>
 
-      <div style={{ height: 650, width: "100%" }}>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          pageSize={10}
-          rowsPerPageOptions={[10]}
-          checkboxSelection
-        />
-      </div>
+        <div style={{ height: 650, width: "100%" }}>
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            pageSize={10}
+            rowsPerPageOptions={[10]}
+            checkboxSelection
+          />
+        </div>
+      </Container>
     </Page>
   );
 }

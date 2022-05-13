@@ -64,6 +64,6 @@ app.use(async (req: any, res: any, next: any) => {
 
 // app.use("/task", taskManagemnt);
 
-app.listen(3001, "192.168.1.187", () => {
+app.listen(3001, () => {
   console.log(`Example appd listening on port ${port}`);
 });
