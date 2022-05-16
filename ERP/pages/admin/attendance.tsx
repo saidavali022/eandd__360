@@ -1,13 +1,12 @@
 import { filter } from "lodash";
 import { sentenceCase } from "change-case";
-import type { ReactElement } from "react";
 import { useState, useEffect } from "react";
+import type { ReactElement } from "react";
+import DashboardLayout from "@layouts/dashboard";
 import { differenceInMinutes } from "date-fns";
 import { DatePicker } from "@mui/x-date-pickers";
-import UserDashboardLayout from "@layouts/userdashboard";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import axios from "@utils/defaultImports";
 import {
   fDate,
   fTime,
@@ -27,12 +26,18 @@ import { IBreak } from "@utils/interfaces/common";
 import {
   Card,
   Stack,
+  Grid,
   Container,
   Typography,
   Button,
   Breadcrumbs,
   TextField,
+  Avatar,
+  Autocomplete,
+  CircularProgress,
+  ButtonBase,
 } from "@mui/material";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 import {
   DataGrid,
   GridToolbar,
@@ -67,30 +72,21 @@ function getTotalBreakTime(b: IBreak[]) {
 }
 
 const columns: GridColDef[] = [
-  // {
-  //   field: "id",
-  //   hide: true,
-  //   hideable: false,
-  // },
+  {
+    field: "id",
+    hide: true,
+    hideable: false,
+  },
   {
     field: "date",
     headerName: "Date",
-    type: "date",
     width: 100,
+    type: "date",
     hideable: false,
-    valueGetter: (params: GridValueGetterParams) =>
-      params.row?.log_in && new Date(params.row.log_in),
-    // valueGetter: (params: GridValueGetterParams) => {
-    //   return fDate(params.row.log_in);
-    // },
+    valueGetter: (params: GridValueGetterParams) => {
+      return fDate(params.row.log_in);
+    },
   },
-  // {
-  //   field: "shift_time",
-  //   headerName: "Shift",
-  //   valueGetter: (params: GridValueGetterParams) => {
-  //     return "02:00 PM";
-  //   },
-  // },
   {
     field: "log_in",
     headerName: "Log In",
@@ -103,10 +99,9 @@ const columns: GridColDef[] = [
     field: "breaks",
     headerName: "Breaks",
     minWidth: 150,
-    type: "string",
     flex: 1,
     renderCell: (params: GridRenderCellParams) =>
-      renderBreakPills(params.row?.breaks),
+      renderBreakPills(params.row.breaks),
   },
   {
     field: "log_out",
@@ -125,14 +120,10 @@ const columns: GridColDef[] = [
       let designation = "LG";
       const employee_shift_hours = 9;
       let shift_end = fAddHours(params.row.log_in, employee_shift_hours);
-
-      if (params.row.log_out == null) {
-        return "-";
-      }
-
       let over_time_minutes = Math.abs(
         fdifferenceInMinutes(shift_end, params.row.log_out)
       );
+      console.info(over_time_minutes);
 
       if (designation === "SD" && over_time_minutes > 30) {
         return fMinutesToWords(over_time_minutes);
@@ -174,7 +165,7 @@ const columns: GridColDef[] = [
   },
 ];
 
-const defaultRows = [
+const rows = [
   {
     id: "e69d9e5d-1aca-55ab-918f-faf1991b0090",
     log_in: "2022-04-12T02:30:45.738Z",
@@ -208,30 +199,92 @@ const defaultRows = [
     ],
   },
 ];
+interface Employee {
+  id: string;
+  sudo_name: string;
+  name: string;
+}
 
+function sleep(delay = 0) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, delay);
+  });
+}
+const EmployeesList = [
+  {
+    id: "END1111",
+    sudo_name: "Robert Smith",
+    name: "Mohammed",
+    profile_img: "/assets/images/avatar/1.jpg",
+  },
+  {
+    id: "END1112",
+    sudo_name: "Jonney Max",
+    name: "Tarassal",
+    profile_img: "/assets/images/avatar/1.jpg",
+  },
+  {
+    id: "END1113",
+    sudo_name: "Saif Smart",
+    name: "Smart",
+    profile_img: "/assets/images/avatar/1.jpg",
+  },
+  {
+    id: "END1114",
+    sudo_name: "Martin Cook",
+    name: "Minhaj",
+    profile_img: "/assets/images/avatar/1.jpg",
+  },
+  {
+    id: "END1115",
+    sudo_name: "Albert Wilson",
+    name: "Shaik",
+    profile_img: "/assets/images/avatar/1.jpg",
+  },
+];
 export default function Attendance() {
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   const [calDate, setCalDate] = useState<Date | null>(new Date());
-  const [rows, setRows] = useState([]);
+  const [designation, setDesignation] = useState("");
+  const [employeeId, setEmployeeId] = useState({});
+  const [open, setOpen] = useState(false);
+  const [options, setOptions] = useState<readonly Employee[]>([]);
+  const loading = open && options.length === 0;
+  //   const [page, setPage] = useState(0);
+  //   const [order, setOrder] = useState("asc");
+  //   const [selected, setSelected] = useState([]);
+  //   const [orderBy, setOrderBy] = useState("date");
+  //   const [filterName, setFilterName] = useState("");
+  //   const [rowsPerPage, setRowsPerPage] = useState(5);
   useEffect(() => {
-    axios
-      .get("http://localhost:3001/attendance/END1111", {
-        params: {
-          date: calDate,
-        },
-      })
-      .then((res) => {
-        console.info("api response -", res);
-        setRows(res.data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, [calDate]);
+    if (!open) {
+      setOptions([]);
+    }
+  }, [open]);
+  useEffect(() => {
+    let active = true;
+
+    if (!loading) {
+      return undefined;
+    }
+
+    (async () => {
+      await sleep(1e3); // For demo purposes.
+
+      if (active) {
+        setOptions([...EmployeesList]);
+      }
+    })();
+
+    return () => {
+      active = false;
+    };
+  }, [loading]);
 
   const handleCalDateChange = (newValue: Date | null) => {
     setCalDate(newValue);
   };
+
   return (
     <Page title="Attendance | E & D 360">
       <Container maxWidth="false">
@@ -251,38 +304,96 @@ export default function Attendance() {
               Attendance
             </Typography>
             <Breadcrumbs aria-label="breadcrumb">
-              <NextLink href="/dashboard">Dashboard</NextLink>
+              <NextLink href="/admin">Dashboard</NextLink>
               <Typography color="text.primary">Attendance</Typography>
             </Breadcrumbs>
           </Stack>
-          <Stack
-            direction="column"
-            alignItems="end"
-            justifyContent="space-between"
-          >
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DatePicker
-                views={["month", "year"]}
-                label="Year and Month"
-                maxDate={new Date()}
-                value={calDate}
-                onChange={handleCalDateChange}
-                renderInput={(params) => (
-                  <TextField {...params} helperText={null} />
-                )}
-              />
-            </LocalizationProvider>
-          </Stack>
         </Stack>
 
+        <Grid container spacing={2} sx={{ paddingBottom: 2 }}>
+          <Grid item>
+            <ButtonBase sx={{ width: 100, height: 100 }}>
+              <Avatar
+                alt="Robert Smith"
+                src="/static/images/avatar/1.jpg"
+                sx={{ width: 100, height: 100 }}
+              />
+            </ButtonBase>
+          </Grid>
+          <Grid item xs="auto" md={3} container direction="column" spacing={2}>
+            <Grid item>
+              <Typography gutterBottom variant="subtitle1" component="div">
+                Mohammed Mushtaq
+              </Typography>
+              <Typography variant="body2" gutterBottom>
+                SUDO NAME: Robert Smith
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                ID: END1111
+              </Typography>
+            </Grid>
+          </Grid>
+          <Grid item xs={12} sm container>
+            <Grid item xs={12} md="auto" sx={{ padding: 2 }}>
+              <Autocomplete
+                id="asynchronous-demo"
+                sx={{ width: 300 }}
+                open={open}
+                onOpen={() => {
+                  setOpen(true);
+                }}
+                onClose={() => {
+                  setOpen(false);
+                }}
+                isOptionEqualToValue={(option, value) =>
+                  option.sudo_name === value.sudo_name
+                }
+                getOptionLabel={(option) => option.sudo_name}
+                options={options}
+                loading={loading}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Employee"
+                    InputProps={{
+                      ...params.InputProps,
+                      endAdornment: (
+                        <>
+                          {loading ? (
+                            <CircularProgress color="inherit" size={20} />
+                          ) : null}
+                          {params.InputProps.endAdornment}
+                        </>
+                      ),
+                    }}
+                  />
+                )}
+              />
+            </Grid>
+            <Grid item xs={12} md="auto" sx={{ padding: 2 }}>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DatePicker
+                  views={["year", "month"]}
+                  label="Year and Month"
+                  maxDate={new Date()}
+                  value={calDate}
+                  onChange={handleCalDateChange}
+                  renderInput={(params) => (
+                    <TextField {...params} helperText={null} />
+                  )}
+                />
+              </LocalizationProvider>
+            </Grid>
+          </Grid>
+        </Grid>
         <Card
           sx={{
             height: 350,
             width: 1,
           }}
         >
+          {" "}
           <DataGrid
-            // getRowId={(row) => row.internalId}
             rows={rows}
             columns={columns}
             components={{ Toolbar: GridToolbar }}
@@ -295,5 +406,5 @@ export default function Attendance() {
   );
 }
 Attendance.getLayout = (page: ReactElement) => (
-  <UserDashboardLayout>{page}</UserDashboardLayout>
+  <DashboardLayout>{page}</DashboardLayout>
 );

@@ -9,37 +9,42 @@ const getIcon = (name: string) => (
 
 const sidebarConfig = [
   {
-    title: "dashboard",
+    title: "Dashboard",
     path: "/admin",
     icon: getIcon("eva:pie-chart-2-fill"),
   },
   {
-    title: "user",
+    title: "User",
     path: "/admin/users",
     icon: getIcon("eva:people-fill"),
   },
   {
-    title: "task",
+    title: "Task",
     path: "/admin/tasks",
     icon: getIcon("eva:people-fill"),
   },
-  // {
-  //   title: "Attendance",
-  //   path: "/dashboard/attendance",
-  //   icon: getIcon("eva:people-fill"),
-  // },
   {
-    title: "Exist Management",
+    title: "Attendance",
+    path: "/admin/attendance",
+    icon: getIcon("eva:list-outline"),
+  },
+  {
+    title: "Calendar",
+    path: "/admin/calendar",
+    icon: getIcon("eva:calendar-outline"),
+  },
+  {
+    title: "Exit Management",
     path: "/admin/exits",
     icon: getIcon("eva:file-text-fill"),
   },
   {
-    title: "login",
+    title: "Login",
     path: "/login",
     icon: getIcon("eva:lock-fill"),
   },
   {
-    title: "register",
+    title: "Register",
     path: "/register",
     icon: getIcon("eva:person-add-fill"),
   },

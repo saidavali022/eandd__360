@@ -21,7 +21,7 @@ model checklists {
 model employee_complants_advices_suggestions {
   id          Int                                                @id @default(autoincrement())
   employee_id String                                             @db.VarChar(255)
-  create_at   DateTime                                           @default(now()) @db.Date
+  created_at  DateTime                                           @default(now()) @db.Date
   message     String                                             @db.LongText
   status      employee_complants_advices_suggestions_status
   letter_type employee_complants_advices_suggestions_letter_type
@@ -41,39 +41,41 @@ model employee_letters {
   employee_id String                       @db.VarChar(255)
   letter_type employee_letters_letter_type
   letter      String                       @db.VarChar(255)
-  create_at   DateTime                     @default(now()) @db.DateTime(0)
+  created_at  DateTime                     @default(now()) @db.Timestamp(6)
 }
 
 model employee_resignation {
   id                 Int                                     @default(autoincrement())
   employee_id        String                                  @id
   reason             String                                  @db.LongText
-  create_at          DateTime                                @default(now()) @db.Date
   end_date           DateTime                                @db.Date
   start_date         DateTime                                @db.Date
   status             employee_resignation_status
   send_check_list    employee_resignation_send_check_list
   send_feedback_form employee_resignation_send_feedback_form
+  created_at         DateTime                                @default(now()) @db.Timestamp(6)
 
   @@index([id], map: "id")
 }
 
 model event_attendees {
-  id          Int    @unique(map: "id")
+  id          Int    @id @default(autoincrement())
   event_id    String @db.VarChar(255)
+  events      events @relation(fields: [event_id], references: [event_id], onUpdate: Restrict)
   attendee_id String @db.VarChar(255)
-  events      events @relation(fields: [event_id], references: [event_id], onUpdate: Restrict, map: "event_to_attendees")
-
-  @@index([event_id], map: "event_to_attendees")
+  attendee    users  @relation(fields: [attendee_id], references: [employee_id])
 }
 
 model events {
-  id              Int
-  event_id        String            @id @db.VarChar(255)
-  create_by       String            @db.VarChar(255)
+  event_id        String            @id @default(uuid())
+  created_by      String
+  creator         users             @relation(fields: [created_by], references: [employee_id])
+  title           String
+  description     String
+  start           DateTime
+  end             DateTime
+  kind            String
   event_attendees event_attendees[]
-
-  @@index([id], map: "id")
 }
 
 model feedback {
@@ -92,52 +94,93 @@ model feedback {
   fed_question_10 String          @db.Text
   fed_question_11 String          @db.Text
   status          feedback_status
-  create_at       DateTime        @default(now()) @db.Date
+  created_at      DateTime        @default(now()) @db.Timestamp(6)
 
   @@index([id], map: "id")
 }
 
 model feedback_questions {
-  id              Int    @id @default(autoincrement())
-  feed_from_id    Int    @default(1)
-  feed_quasion_id Int
-  question        String @db.VarChar(255)
+  id               Int    @id @default(autoincrement())
+  feed_from_id     Int    @default(1)
+  feed_question_id Int
+  question         String @db.VarChar(255)
 }
 
 model task {
-  id          Int         @id @default(autoincrement())
+  id          Int            @id @default(autoincrement())
   title       String
   description String
   attachment  String
   team        String
   employee_id String
-  start_date  DateTime    @db.Date
-  end_date    DateTime    @db.Date
-  createdAt   DateTime    @default(now()) @db.Timestamp(6)
-  status      task_status
-  priority    String?     @default("low")
+  start_date  DateTime       @db.Date
+  end_date    DateTime       @db.Date
+  status      task_status    @default(pending)
+  priority    tasks_priority @default(low)
+  created_at  DateTime       @default(now()) @db.Timestamp(6)
+  updated_at  DateTime       @default(now()) @updatedAt @db.Timestamp(6)
+}
+
+enum tasks_priority {
+  high
+  medium
+  low
 }
 
 model users {
-  id             Int     @id @default(autoincrement())
+  id             Int               @id @default(autoincrement())
   first_name     String
   last_name      String
-  email          String  @unique
-  phone          String
-  dob            String
-  gender         String
-  country        String
-  city           String
-  zip_code       String
-  sudo_name      String
-  blood_group    String
-  marital_status String
-  department     String
-  designation    String
-  doj            String
-  employee_id    String
+  sudo_name      String?
+  role           users_role        @default(user)
+  email          String            @unique
+  phone          String?
+  dob            DateTime?         @db.Date
+  doj            DateTime?         @db.Date
+  gender         String?
+  designation    String?
+  country        String?
+  city           String?
+  zip_code       String?
+  blood_group    String?
+  marital_status String?
+  profile_img    String?           @default("avater.png")
+  department     String?
+  employee_id    String            @unique
   password       String
-  profile_img    String? @default("avather.png")
+  created_at     DateTime          @default(now()) @db.Timestamp(6)
+  updated_at     DateTime          @default(now()) @updatedAt @db.Timestamp(6)
+  events         events[]
+  event_attendee event_attendees[]
+  attendance     attendance[]
+}
+
+model attendance {
+  id          Int       @id @default(autoincrement()) @db.UnsignedInt
+  log_in      DateTime  @default(now()) @db.Timestamp(0)
+  log_out     DateTime? @db.Timestamp(0)
+  created_at  DateTime  @default(now()) @db.Timestamp(0)
+  updated_at  DateTime  @default(now()) @db.Timestamp(0)
+  employee_id String?
+  users       users?    @relation(fields: [employee_id], references: [employee_id], map: "Attendance_user_id_fkey")
+  breaks      breaks[]
+
+}
+
+model breaks {
+  id           Int         @id @default(autoincrement()) @db.UnsignedInt
+  break_start  DateTime    @default(now()) @db.Timestamp(0)
+  break_end    DateTime?   @db.Timestamp(0)
+  attendanceId Int?        @db.UnsignedInt
+  attendance   attendance? @relation(fields: [attendanceId], references: [id], map: "Break_attendanceId_fkey")
+
+  @@index([attendanceId], map: "Break_attendanceId_fkey")
+}
+
+enum users_role {
+  user
+  hr
+  admin
 }
 
 enum checklists_check_status {

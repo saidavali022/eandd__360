@@ -1,5 +1,5 @@
 import Express, { Request, Response, NextFunction } from "express";
-import * as exitsServices from "../services/exits.services";
+import * as exitsServices from "../services/exits.service";
 
 export const resignationData = async (req: Request, res: Response) => {
   await exitsServices

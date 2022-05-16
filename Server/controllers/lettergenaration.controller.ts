@@ -1,5 +1,5 @@
 import Express, { Request, Response, NextFunction } from "express";
-import * as lettergenaration from "../services/lettergenaration.services";
+import * as lettergenaration from "../services/lettergenaration.service";
 
 export const getLeaves = async (req: Request, res: Response) => {
   lettergenaration

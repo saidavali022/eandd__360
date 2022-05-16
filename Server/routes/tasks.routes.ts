@@ -5,7 +5,7 @@ import {
   listTasks,
   deleteTask,
   updateTaskStatus,
-} from "../controller/tasks.controller";
+} from "../controllers/tasks.controller";
 import upload from "../modules/fileupload";
 
 const router = Router();

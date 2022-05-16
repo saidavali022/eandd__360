@@ -3,7 +3,7 @@ import {
   getUsers,
   createUser,
   getUsersById,
-} from "../controller/users.controller";
+} from "../controllers/users.controller";
 const router = Router();
 
 router.get("/", getUsers);

@@ -19,11 +19,20 @@ const sidebarConfig = [
     icon: getIcon("eva:people-fill"),
   },
   {
-    title: "Task",
+    title: "Tasks",
     path: "/user/tasks",
     icon: getIcon("eva:people-fill"),
   },
-
+  {
+    title: "Attendance",
+    path: "/user/attendance",
+    icon: getIcon("eva:list-outline"),
+  },
+  {
+    title: "Calendar",
+    path: "/user/calendar",
+    icon: getIcon("eva:calendar-outline"),
+  },
   {
     title: "Exit Management",
     path: "/user/exit",

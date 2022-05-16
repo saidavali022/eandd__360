@@ -11,7 +11,7 @@ import {
   getLetters,
   getLettersByempId,
   createLetters,
-} from "../controller/lettergenaration.controller";
+} from "../controllers/lettergenaration.controller";
 const router = Router();
 router.get("/comadvsug", getComAdvSug);
 router.get("/letters", getLetters);
