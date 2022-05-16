@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import axios, { toast, ToastContainer_box } from "@utils/defaultImports";
+import type { ReactElement } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
 import DashboardLayout from "@layouts/dashboard";
@@ -74,4 +75,6 @@ const comadvsuglist = () => {
 };
 
 export default comadvsuglist;
-comadvsuglist.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
+comadvsuglist.getLayout = (page: ReactElement) => (
+  <DashboardLayout>{page}</DashboardLayout>
+);

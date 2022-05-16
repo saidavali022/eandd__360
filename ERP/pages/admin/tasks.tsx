@@ -1,3 +1,4 @@
+import type { ReactElement } from "react";
 import { useEffect, useState } from "react";
 import styles from "@styles/Users.module.css";
 import Drawer from "@mui/material/Drawer";
@@ -12,9 +13,6 @@ import {
   GridRenderCellParams,
   GridToolbar,
 } from "@mui/x-data-grid";
-
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
 
 // material
 import {
@@ -36,35 +34,35 @@ import NextLink from "next/link";
 
 export default function Task() {
   const [editId, setEditId] = useState();
-  const [rowData, setrowData] = useState([]);
-  const [anchor, setanchor] = useState(false);
+  const [rowData, setRowData] = useState([]);
+  const [anchor, setAnchor] = useState(false);
   const [InputDate, setInputDate] = useState("text");
-  const [optionEmp, setoptionEmp] = useState("");
-  const [priorityTeam, setpriorityTeam] = useState("");
-  const [departments, setdepartments] = useState();
-  const changeoptionEmp = (event: any) => {
-    setoptionEmp(event.target.value);
+  const [optionEmp, setOptionEmp] = useState("");
+  const [priorityTeam, setPriorityTeam] = useState("");
+  const [departments, setDepartments] = useState();
+  const changeOptionEmp = (event: any) => {
+    setOptionEmp(event.target.value);
   };
 
-  const changepriorityTeam = (event: any) => {
-    setpriorityTeam(event.target.value);
+  const changePriorityTeam = (event: any) => {
+    setPriorityTeam(event.target.value);
   };
 
-  const [optionTeam, setoptionTeam] = useState("");
-  const changeoptionTeam = (event: any) => {
-    setoptionTeam(event.target.value);
+  const [optionTeam, setOptionTeam] = useState("");
+  const changeOptionTeam = (event: any) => {
+    setOptionTeam(event.target.value);
   };
-  const [formData, setformData] = useState();
+  const [formData, setFormData] = useState({});
 
   const getFormData = (event: any) => {
-    // setformData({ ...formData, [event.target.name]: event.target.value });
+    // setFormData({ ...formData, [event.target.name]: event.target.value });
     if (event.target.name == "file") {
-      setformData({
+      setFormData({
         ...formData,
         [event.target.name]: event.target.files[0],
       });
     } else {
-      setformData({ ...formData, [event.target.name]: event.target.value });
+      setFormData({ ...formData, [event.target.name]: event.target.value });
     }
   };
 
@@ -107,7 +105,7 @@ export default function Task() {
     })
       .then(function (response: any) {
         if (response.status === 200) {
-          setrowData(response.data.data);
+          setRowData(response.data);
         }
       })
       .catch(function (error: any) {});
@@ -115,7 +113,6 @@ export default function Task() {
 
   useEffect(() => {
     getTasklist();
-    // getDepartments();
   }, []);
 
   const deleteTask = (event: Event) => {
@@ -135,20 +132,19 @@ export default function Task() {
     const editDate = rowData.filter(
       (rowData: any) => rowData.id == editId || 0
     );
-    if (editDate[0]) setformData(editDate[0]);
+    if (editDate[0]) setFormData(editDate[0]);
   }, [editId]);
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "S.No", width: 100 },
-    { field: "team", headerName: "Team", width: 250, editable: true },
-    { field: "employee_id", headerName: "Employee id", width: 250 },
-    { field: "priority", headerName: "priority", width: 250 },
+    { field: "team", headerName: "Team", width: 100, editable: true },
+    { field: "employee_id", headerName: "Employee id", width: 200 },
+    { field: "priority", headerName: "priority", width: 100 },
     { field: "title", headerName: "Title", width: 250 },
     { field: "description", headerName: "Description", width: 250 },
     { field: "status", headerName: "Status", width: 250 },
     { field: "start_date", headerName: "Start Date", width: 250 },
     { field: "end_date", headerName: "End Date", width: 250 },
-
     {
       field: "action",
       headerName: "Action",
@@ -168,31 +164,30 @@ export default function Task() {
       <Stack direction="row" spacing={2}>
         <Button
           variant="contained"
-          color="error"
+          startIcon={<Iconify icon="eva:edit-outline" />}
           id={params.id}
-          onClick={deleteTask}
-          startIcon={<DeleteIcon />}
+          onClick={() => {
+            setAnchor(true);
+            setEditId(params.id);
+          }}
         >
-          Delete
+          Edit
         </Button>
         <Button
           variant="contained"
-          color="success"
+          color="error"
           id={params.id}
-          onClick={() => {
-            setanchor(true);
-            setEditId(params.id);
-          }}
-          startIcon={<EditIcon />}
+          onClick={deleteTask}
+          startIcon={<Iconify icon="eva:trash-outline" />}
         >
-          Edit
+          Delete
         </Button>
       </Stack>
     );
   }
 
   return (
-    <Page title="User | E&amp;D 360">
+    <Page title="Tasks | E & D 360">
       <Container>
         <Stack
           direction="row"
@@ -221,9 +216,9 @@ export default function Task() {
             variant="contained"
             startIcon={<Iconify icon="eva:plus-fill" />}
             onClick={() => {
-              setanchor(true);
-              setformData();
-              setEditId("");
+              setAnchor(true);
+              setFormData();
+              setEditId(null);
             }}
           >
             Add Task
@@ -243,7 +238,7 @@ export default function Task() {
           />
         </div>
 
-        <Drawer anchor="right" open={anchor} onClose={() => setanchor(false)}>
+        <Drawer anchor="right" open={anchor} onClose={() => setAnchor(false)}>
           <Box sx={{ width: 450 }}>
             <Container>
               <form onSubmit={submitFormData}>
@@ -275,7 +270,7 @@ export default function Task() {
                   select
                   onChange={(event) => {
                     getFormData(event);
-                    changepriorityTeam(event);
+                    changePriorityTeam(event);
                   }}
                 >
                   <MenuItem value="low">Low</MenuItem>
@@ -304,8 +299,9 @@ export default function Task() {
                   className={styles.taskInputField}
                   select
                   onChange={(event) => {
-                    getFormData(event);
-                    changeoptionTeam(event);
+                    getFormOata(event);
+                    changeOptionTeam(event);
+                    O;
                   }}
                   value={formData?.team}
                 >
@@ -322,7 +318,7 @@ export default function Task() {
                   value={formData?.employee_id}
                   onChange={(event) => {
                     getFormData(event);
-                    changeoptionEmp(event);
+                    changeOptionEmp(event);
                   }}
                 >
                   <MenuItem value="123">shaik</MenuItem>
@@ -382,4 +378,6 @@ export default function Task() {
     </Page>
   );
 }
-Task.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
+Task.getLayout = (page: ReactElement) => (
+  <DashboardLayout>{page}</DashboardLayout>
+);

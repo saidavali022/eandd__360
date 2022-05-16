@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
+import type { ReactElement } from "react";
 import UserDashboardLayout from "@layouts/userdashboard";
 import NextLink from "next/link";
 import axios, { toast, ToastContainer_box } from "@utils/defaultImports";
@@ -35,8 +36,8 @@ import {
 import Label from "@components/Label";
 import { colorStatusPriority } from "@utils/pillColor";
 export default function Tasks() {
-  const [rowData, setrowData] = useState([]);
-  const [formData, setformData] = useState();
+  const [rowData, setRowData] = useState([]);
+  const [formData, setFormData] = useState();
   const [editId, setEditId] = useState();
   const [anchor, setanchor] = useState(false);
   const globalState = useSelector((state) => state.globalState);
@@ -60,11 +61,11 @@ export default function Tasks() {
   const getTaskList = () => {
     axios({
       method: "get",
-      url: `${"/tasks/" + globalState.Employee_id + "/"}`,
+      url: `${"/tasks/" + globalState.Employee_id}`,
     })
       .then(function (response: any) {
         if (response.status === 200) {
-          setrowData(response.data.data);
+          setRowData(response.data);
         }
       })
       .catch(function (error: any) {});
@@ -78,10 +79,10 @@ export default function Tasks() {
     const editDate = rowData.filter(
       (rowData: any) => rowData.id == editId || 0
     );
-    if (editDate[0]) setformData(editDate[0]);
+    if (editDate[0]) setFormData(editDate[0]);
   }, [editId]);
 
-  const updateData = async (event) => {
+  const updateData = async (event: any) => {
     await axios({
       method: "put",
       url: `${"/tasks/status/" + event.target.id}`,
@@ -153,13 +154,6 @@ export default function Tasks() {
       </Stack>
     );
   }
-
-  //   const [page, setPage] = useState(0);
-  //   const [order, setOrder] = useState("asc");
-  //   const [selected, setSelected] = useState([]);
-  //   const [orderBy, setOrderBy] = useState("date");
-  //   const [filterName, setFilterName] = useState("");
-  //   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   return (
     <Page title="Tasks | E & D 360">
@@ -285,4 +279,6 @@ export default function Tasks() {
   );
 }
 
-Tasks.getLayout = (page) => <UserDashboardLayout>{page}</UserDashboardLayout>;
+Tasks.getLayout = (page: ReactElement) => (
+  <UserDashboardLayout>{page}</UserDashboardLayout>
+);

@@ -1,4 +1,5 @@
 import Page from "@components/Page";
+import type { ReactElement } from "react";
 import {
   Typography,
   Container,
@@ -361,4 +362,6 @@ export default function create() {
   );
 }
 
-create.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
+create.getLayout = (page: ReactElement) => (
+  <DashboardLayout>{page}</DashboardLayout>
+);

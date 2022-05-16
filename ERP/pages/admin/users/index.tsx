@@ -1,3 +1,4 @@
+import type { ReactElement } from "react";
 import { useState, useEffect } from "react";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import NextLink from "next/link";
@@ -159,4 +160,6 @@ export default function User() {
     </Page>
   );
 }
-User.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
+User.getLayout = (page: ReactElement) => (
+  <DashboardLayout>{page}</DashboardLayout>
+);

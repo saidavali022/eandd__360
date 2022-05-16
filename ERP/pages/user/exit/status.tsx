@@ -1,4 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
+import type { ReactElement } from "react";
 import UserDashboardLayout from "@layouts/userdashboard";
 import styles from "@styles/Users.module.css";
 import NextLink from "next/link";
@@ -234,4 +235,6 @@ const status = () => {
 };
 export default status;
 
-status.getLayout = (page) => <UserDashboardLayout>{page}</UserDashboardLayout>;
+status.getLayout = (page: ReactElement) => (
+  <UserDashboardLayout>{page}</UserDashboardLayout>
+);

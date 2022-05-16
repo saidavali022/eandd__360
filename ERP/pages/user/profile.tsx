@@ -1,4 +1,5 @@
 import { filter } from "lodash";
+import type { ReactElement } from "react";
 import { sentenceCase } from "change-case";
 import { useState } from "react";
 import UserDashboardLayout from "@layouts/userdashboard";
@@ -136,4 +137,6 @@ export default function Profile() {
   );
 }
 
-Profile.getLayout = (page) => <UserDashboardLayout>{page}</UserDashboardLayout>;
+Profile.getLayout = (page: ReactElement) => (
+  <UserDashboardLayout>{page}</UserDashboardLayout>
+);

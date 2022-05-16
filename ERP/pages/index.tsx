@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import type { ReactElement } from "react";
 import NextHead from "next/head";
 import Image from "next/image";
 import NextLink from "next/link";
@@ -68,6 +69,6 @@ const Home: NextPage = () => {
 
 export default Home;
 
-Home.getLayout = function PageLayout(page) {
+Home.getLayout = function PageLayout(page: ReactElement) {
   return <>{page}</>;
 };

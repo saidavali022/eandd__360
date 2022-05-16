@@ -65,5 +65,5 @@ app.use(async (req: any, res: any, next: any) => {
 // app.use("/task", taskManagemnt);
 
 app.listen(3001, () => {
-  console.log(`Example appd listening on port ${port}`);
+  console.log(`Example app listening on port ${port}`);
 });

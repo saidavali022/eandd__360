@@ -1,4 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
+import type { ReactElement } from "react";
 import DashboardLayout from "@layouts/dashboard";
 import styles from "@styles/Users.module.css";
 import Page from "@components/Page";
@@ -296,4 +297,6 @@ const index = () => {
 };
 export default index;
 
-index.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
+index.getLayout = (page: ReactElement) => (
+  <DashboardLayout>{page}</DashboardLayout>
+);

@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import axios, { toast, ToastContainer_box } from "@utils/defaultImports";
 import "react-toastify/dist/ReactToastify.css";
+import type { ReactElement } from "react";
 import { useSelector } from "react-redux";
 import UserDashboardLayout from "@layouts/userdashboard";
 import styles from "@styles/Users.module.css";
@@ -71,4 +72,6 @@ const leaves = () => {
 };
 
 export default leaves;
-leaves.getLayout = (page) => <UserDashboardLayout>{page}</UserDashboardLayout>;
+leaves.getLayout = (page: ReactElement) => (
+  <UserDashboardLayout>{page}</UserDashboardLayout>
+);

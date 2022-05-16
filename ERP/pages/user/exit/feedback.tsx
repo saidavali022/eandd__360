@@ -1,5 +1,6 @@
 import { useState, React, useEffect } from "react";
 import UserDashboardLayout from "@layouts/userdashboard";
+import type { ReactElement } from "react";
 import Page from "@components/Page";
 import styles from "@styles/Users.module.css";
 import axios, { toast, ToastContainer_box } from "@utils/defaultImports";
@@ -262,6 +263,6 @@ const feedback = () => {
   );
 };
 export default feedback;
-feedback.getLayout = (page) => (
+feedback.getLayout = (page: ReactElement) => (
   <UserDashboardLayout>{page}</UserDashboardLayout>
 );

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios, { toast, ToastContainer_box } from "@utils/defaultImports";
+import type { ReactElement } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
 import Button from "@mui/material/Button";
@@ -135,4 +136,6 @@ function letter() {
   );
 }
 export default letter;
-letter.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
+letter.getLayout = (page: ReactElement) => (
+  <DashboardLayout>{page}</DashboardLayout>
+);

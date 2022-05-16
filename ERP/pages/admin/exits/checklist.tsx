@@ -1,3 +1,4 @@
+import type { ReactElement } from "react";
 import { useState, React, useEffect } from "react";
 import DashboardLayout from "@layouts/dashboard";
 import Page from "@components/Page";
@@ -155,4 +156,6 @@ const checklist = (props) => {
   );
 };
 export default checklist;
-checklist.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
+checklist.getLayout = (page: ReactElement) => (
+  <DashboardLayout>{page}</DashboardLayout>
+);

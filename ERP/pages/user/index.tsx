@@ -9,6 +9,7 @@ import {
   FormControl,
   InputLabel,
 } from "@mui/material";
+import type { ReactElement } from "react";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import UserDashboardLayout from "@layouts/userdashboard";
 // components
@@ -150,6 +151,6 @@ export default function DashboardApp() {
   );
 }
 
-DashboardApp.getLayout = (page) => (
+DashboardApp.getLayout = (page: ReactElement) => (
   <UserDashboardLayout>{page}</UserDashboardLayout>
 );

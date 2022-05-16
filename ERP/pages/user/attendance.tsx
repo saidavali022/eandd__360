@@ -1,5 +1,6 @@
 import { filter } from "lodash";
 import { sentenceCase } from "change-case";
+import type { ReactElement } from "react";
 import { useState, useEffect } from "react";
 import { differenceInMinutes } from "date-fns";
 import { DatePicker } from "@mui/x-date-pickers";
@@ -267,3 +268,6 @@ export default function Attendance() {
     </Page>
   );
 }
+Attendance.getLayout = (page: ReactElement) => (
+  <UserDashboardLayout>{page}</UserDashboardLayout>
+);

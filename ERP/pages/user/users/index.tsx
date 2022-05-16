@@ -3,6 +3,7 @@ import { sentenceCase } from "change-case";
 import { useState } from "react";
 import UserDashboardLayout from "@layouts/userdashboard";
 import NextLink from "next/link";
+import type { ReactElement } from "react";
 // material
 import {
   Card,
@@ -296,4 +297,6 @@ export default function User() {
   );
 }
 
-User.getLayout = (page) => <UserDashboardLayout>{page}</UserDashboardLayout>;
+User.getLayout = (page: ReactElement) => (
+  <UserDashboardLayout>{page}</UserDashboardLayout>
+);

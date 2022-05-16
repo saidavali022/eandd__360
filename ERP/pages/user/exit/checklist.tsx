@@ -1,4 +1,5 @@
 import { useState, React, useEffect } from "react";
+import type { ReactElement } from "react";
 import UserDashboardLayout from "@layouts/userdashboard";
 import Page from "@components/Page";
 import styles from "@styles/Users.module.css";
@@ -162,6 +163,6 @@ const checklist = () => {
   );
 };
 export default checklist;
-checklist.getLayout = (page) => (
+checklist.getLayout = (page: ReactElement) => (
   <UserDashboardLayout>{page}</UserDashboardLayout>
 );

@@ -1,3 +1,4 @@
+import type { ReactElement } from "react";
 // material
 import { Box, Grid, Container, Typography } from "@mui/material";
 // components
@@ -83,4 +84,6 @@ export default function DashboardApp() {
     </>
   );
 }
-DashboardApp.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
+DashboardApp.getLayout = (page: ReactElement) => (
+  <DashboardLayout>{page}</DashboardLayout>
+);

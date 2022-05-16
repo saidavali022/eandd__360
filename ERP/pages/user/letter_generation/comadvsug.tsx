@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios, { toast, ToastContainer_box } from "@utils/defaultImports";
+import type { ReactElement } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
 import Button from "@mui/material/Button";
@@ -122,6 +123,6 @@ function comadvsug() {
   );
 }
 export default comadvsug;
-comadvsug.getLayout = (page) => (
+comadvsug.getLayout = (page: ReactElement) => (
   <UserDashboardLayout>{page}</UserDashboardLayout>
 );

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios, { toast, ToastContainer_box } from "@utils/defaultImports";
+import type { ReactElement } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
 import Button from "@mui/material/Button";
@@ -144,4 +145,6 @@ export default function index() {
     </Box>
   );
 }
-index.getLayout = (page) => <UserDashboardLayout>{page}</UserDashboardLayout>;
+index.getLayout = (page: ReactElement) => (
+  <UserDashboardLayout>{page}</UserDashboardLayout>
+);

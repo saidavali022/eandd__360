@@ -1,4 +1,5 @@
 import { useState, React, useEffect } from "react";
+import type { ReactElement } from "react";
 import DashboardLayout from "@layouts/dashboard";
 import Page from "@components/Page";
 import styles from "@styles/Users.module.css";
@@ -258,4 +259,6 @@ const feedback = () => {
   );
 };
 export default feedback;
-feedback.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
+feedback.getLayout = (page: ReactElement) => (
+  <DashboardLayout>{page}</DashboardLayout>
+);

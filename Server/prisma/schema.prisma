@@ -111,8 +111,8 @@ model task {
   attachment  String
   team        String
   employee_id String
-  start_date  DateTime
-  end_date    DateTime
+  start_date  DateTime    @db.Date
+  end_date    DateTime    @db.Date
   createdAt   DateTime    @default(now()) @db.Timestamp(6)
   status      task_status
   priority    String?     @default("low")
@@ -120,16 +120,16 @@ model task {
 
 model users {
   id             Int     @id @default(autoincrement())
-  first_name      String
-  last_name       String
+  first_name     String
+  last_name      String
   email          String  @unique
   phone          String
   dob            String
   gender         String
   country        String
   city           String
-  zip_code        String
-  sudo_name       String
+  zip_code       String
+  sudo_name      String
   blood_group    String
   marital_status String
   department     String
@@ -143,14 +143,14 @@ model users {
 enum checklists_check_status {
   pending
   completed
-  EMPTY_ENUM_VALUE @map("")
+  EMPTY_ENUM_VALUE  @map("")
 }
 
 enum employee_complants_advices_suggestions_status {
   pending
   accepted
   rejected
-  EMPTY_ENUM_VALUE @map("")
+  EMPTY_ENUM_VALUE  @map("")
 }
 
 enum employee_complants_advices_suggestions_letter_type {
@@ -162,11 +162,11 @@ enum employee_leaves_leave_status {
   pending
   accepted
   rejected
-  EMPTY_ENUM_VALUE @map("")
+  EMPTY_ENUM_VALUE  @map("")
 }
 
 enum employee_leaves_permission_type {
-  EMPTY_ENUM_VALUE @map("")
+  EMPTY_ENUM_VALUE  @map("")
   leave
   latelogin
   earlylogout
@@ -185,7 +185,7 @@ enum employee_resignation_status {
   pending
   accepted
   rejected
-  EMPTY_ENUM_VALUE @map("")
+  EMPTY_ENUM_VALUE  @map("")
 }
 
 enum employee_resignation_send_check_list {
@@ -203,12 +203,13 @@ enum employee_resignation_send_feedback_form {
 enum feedback_status {
   pending
   send
-  EMPTY_ENUM_VALUE @map("")
+  EMPTY_ENUM_VALUE  @map("")
 }
 
 enum task_status {
+  draft
   pending
   completed
   started
-  EMPTY_ENUM_VALUE @map("")
+  EMPTY_ENUM_VALUE  @map("")
 }
