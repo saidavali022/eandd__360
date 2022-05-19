@@ -81,32 +81,16 @@ const appUsers = [
 const appointmentInitialState = {
   id: null,
   title: "",
-  description: null,
+  description: "",
   attendees: [],
   start: new Date(),
   end: new Date(),
   kind: "kind#appointment",
 };
 
-const interviewAppointmentInitialState = {
-  id: null,
-  title: "",
-  name: null,
-  phone: null,
-  location: null,
-  email: null,
-  status: null,
-  interview_status: null,
-  response: null,
-  description: null,
-  start: new Date(),
-  end: new Date(),
-  kind: "kind#interview",
-};
-
 export default function Calendar() {
   // const calendarRef = useRef(null);
-  const sessionUserId = "END1111"; // TODO dynamic login user id
+  const sessionUserId = "END1112"; // TODO dynamic login user id
   const [openModel, setOpenModel] = useState(false);
   const [tabIndex, setTabIndex] = useState("appointment");
   const [appointmentInput, setAppointmentInput] = useReducer(
@@ -114,14 +98,8 @@ export default function Calendar() {
     appointmentInitialState
   );
 
-  const [interviewAppointmentInput, setInterviewAppointmentInput] = useReducer(
-    (state: any, newState: any) => ({ ...state, ...newState }),
-    interviewAppointmentInitialState
-  );
-
   const handleResetEvents = () => {
     setAppointmentInput(appointmentInitialState);
-    setInterviewAppointmentInput(interviewAppointmentInitialState);
   };
 
   const handleModelClose = () => {
@@ -133,8 +111,7 @@ export default function Calendar() {
 
     setAppointmentInput({ start: event.start });
     setAppointmentInput({ end: event.end });
-    setInterviewAppointmentInput({ start: event.start });
-    setInterviewAppointmentInput({ end: event.end });
+
     setOpenModel(true);
   };
 
@@ -169,12 +146,6 @@ export default function Calendar() {
           kind: res.data.kind,
           description: res.data?.description,
           status: res.data?.status,
-          interview_status: res.data?.interview_status,
-          name: res.data.event_attendees[0]?.name,
-          email: res.data.event_attendees[0]?.email,
-          phone: res.data.event_attendees[0]?.phone,
-          location: res.data.event_attendees[0]?.location,
-          response: res.data.event_attendees[0]?.response,
           attendees: res.data?.event_attendees?.map(
             (attendee: any) => attendee?.attendee_id
           ),
@@ -192,25 +163,6 @@ export default function Calendar() {
           });
         }
 
-        if (res.data.kind === "kind#interview") {
-          setTabIndex("interview");
-          setInterviewAppointmentInput({
-            id: event.id,
-            title: event.title,
-            description: event.description,
-            start: new Date(event.start),
-            end: new Date(event.end),
-            name: event.name,
-            email: event.email,
-            phone: event.phone,
-            location: event.location,
-            interview_status: event.interview_status,
-            status: event.status,
-            response: event.response,
-            kind: "kind#interview",
-          });
-        }
-
         setOpenModel(true);
       })
       .catch(function (error: any) {
@@ -224,12 +176,6 @@ export default function Calendar() {
     setAppointmentInput({ [name]: newValue });
   };
 
-  const handleInterviewAppointmentInput = (event: any) => {
-    const name = event.target.name;
-    const newValue = event.target.value;
-    setInterviewAppointmentInput({ [name]: newValue });
-  };
-
   const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
     setTabIndex(newValue);
   };
@@ -240,10 +186,6 @@ export default function Calendar() {
 
     if (tabIndex == "appointment") {
       data = { ...appointmentInput };
-    }
-
-    if (tabIndex == "interview") {
-      data = { ...interviewAppointmentInput };
     }
 
     if (data.id == null) {
@@ -260,45 +202,6 @@ export default function Calendar() {
         console.error("Appointment Delete ", error);
         toast.error("Internal Server Error", { theme: "colored" });
       });
-  };
-
-  const handleInterviewAppointmentCreate = (event: any) => {
-    event.preventDefault();
-    let data = { ...interviewAppointmentInput };
-    if (interviewAppointmentInput.id == null) {
-      axios
-        .post(`users/events/interview/${sessionUserId}`, data)
-        .then((res: any) => {
-          setOpenModel(false);
-          toast.success("Successful", {
-            theme: "colored",
-          });
-        })
-        .catch((error: any) => {
-          toast.error("Something Went Wrong", {
-            theme: "colored",
-          });
-        });
-    }
-
-    if (interviewAppointmentInput.id != null) {
-      axios
-        .put(
-          `/users/events/interview/${sessionUserId}/${interviewAppointmentInput.id}`,
-          data
-        )
-        .then((res: any) => {
-          setOpenModel(false);
-          toast.success("Successful", {
-            theme: "colored",
-          });
-        })
-        .catch((error: any) => {
-          toast.error("Something Went Wrong", {
-            theme: "colored",
-          });
-        });
-    }
   };
 
   const handleEventCreate = (event: any) => {
@@ -446,7 +349,6 @@ export default function Calendar() {
                 >
                   <Tab label="Meeting" value="appointment" />
                   <Tab label="Remainder" value="remainder" />
-                  <Tab label="Interview" value="interview" />
                 </TabList>
               </Box>
               <TabPanel value="appointment">
@@ -508,7 +410,7 @@ export default function Calendar() {
                       >
                         {appUsers
                           .filter((user) => {
-                            return user.id !== sessionUserId; // TODO dynamic login user id
+                            return user.id !== sessionUserId;
                           })
                           .map((user) => (
                             <MenuItem key={user.id} value={user.id}>
@@ -546,8 +448,8 @@ export default function Calendar() {
                       <MobileDateTimePicker
                         label="End Time"
                         minDate={new Date()}
-                        name="end"
                         inputFormat="dd/MM/yyyy hh:mm a"
+                        name="end"
                         value={appointmentInput.end}
                         onChange={(newValue: Date | null) => {
                           setAppointmentInput({ end: newValue });
@@ -577,175 +479,6 @@ export default function Calendar() {
                 </form>
               </TabPanel>
               <TabPanel value="remainder">Remainder</TabPanel>
-              <TabPanel value="interview">
-                <form
-                  onSubmit={handleInterviewAppointmentCreate}
-                  autoComplete="off"
-                >
-                  <DialogContent>
-                    <TextField
-                      autoFocus
-                      margin="normal"
-                      name="title"
-                      label="Title"
-                      type="text"
-                      fullWidth
-                      variant="outlined"
-                      onChange={handleInterviewAppointmentInput}
-                      value={interviewAppointmentInput.title}
-                      required
-                    />
-                    <TextField
-                      autoFocus
-                      margin="normal"
-                      name="description"
-                      label="Description"
-                      type="text"
-                      fullWidth
-                      variant="outlined"
-                      onChange={handleInterviewAppointmentInput}
-                      value={interviewAppointmentInput.description}
-                    />
-                    <TextField
-                      autoFocus
-                      margin="normal"
-                      name="response"
-                      label="Comments"
-                      type="text"
-                      fullWidth
-                      variant="outlined"
-                      onChange={handleInterviewAppointmentInput}
-                      value={interviewAppointmentInput.response}
-                    />
-                    <TextField
-                      autoFocus
-                      margin="normal"
-                      name="name"
-                      label="Name"
-                      type="text"
-                      fullWidth
-                      variant="outlined"
-                      onChange={handleInterviewAppointmentInput}
-                      value={interviewAppointmentInput.name}
-                    />
-                    <TextField
-                      autoFocus
-                      margin="normal"
-                      name="phone"
-                      label="Phone"
-                      type="text"
-                      fullWidth
-                      variant="outlined"
-                      onChange={handleInterviewAppointmentInput}
-                      value={interviewAppointmentInput.phone}
-                    />
-                    <TextField
-                      autoFocus
-                      margin="normal"
-                      name="email"
-                      label="Email"
-                      type="text"
-                      fullWidth
-                      variant="outlined"
-                      onChange={handleInterviewAppointmentInput}
-                      value={interviewAppointmentInput.email}
-                    />
-                    <TextField
-                      autoFocus
-                      margin="normal"
-                      name="location"
-                      label="Location"
-                      type="text"
-                      fullWidth
-                      variant="outlined"
-                      onChange={handleInterviewAppointmentInput}
-                      value={interviewAppointmentInput.location}
-                    />
-                    <Autocomplete
-                      disablePortal
-                      onInputChange={(event, newInputValue) => {
-                        setInterviewAppointmentInput({ status: newInputValue });
-                      }}
-                      value={interviewAppointmentInput.status}
-                      options={[
-                        "Confirmed",
-                        "Not Confirmed",
-                        "Declined",
-                        "Absent",
-                      ]}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label="Status"
-                          margin="normal"
-                          name="status"
-                          fullWidth
-                        />
-                      )}
-                    />
-                    <TextField
-                      autoFocus
-                      margin="normal"
-                      name="interview_status"
-                      label="interview Status"
-                      type="text"
-                      fullWidth
-                      variant="outlined"
-                      onChange={handleInterviewAppointmentInput}
-                      value={interviewAppointmentInput.interview_status}
-                    />
-
-                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                      <MobileDateTimePicker
-                        label="Start Time"
-                        name="start"
-                        minDate={new Date()}
-                        value={interviewAppointmentInput.start}
-                        onChange={(newValue: Date | null) => {
-                          setInterviewAppointmentInput({ start: newValue });
-                          setInterviewAppointmentInput({ end: newValue });
-                        }}
-                        renderInput={(params: any) => (
-                          <TextField
-                            {...params}
-                            helperText={null}
-                            margin="normal"
-                            fullWidth
-                          />
-                        )}
-                      />
-                      <MobileDateTimePicker
-                        label="End Time"
-                        minDate={new Date()}
-                        name="end"
-                        value={interviewAppointmentInput.end}
-                        onChange={(newValue: Date | null) => {
-                          setInterviewAppointmentInput({ end: newValue });
-                        }}
-                        renderInput={(params: any) => (
-                          <TextField
-                            {...params}
-                            helperText={null}
-                            margin="normal"
-                            fullWidth
-                          />
-                        )}
-                      />
-                    </LocalizationProvider>
-                  </DialogContent>
-                  <DialogActions>
-                    {interviewAppointmentInput.id !== null && (
-                      <Button onClick={handleEventDelete}>Delete</Button>
-                    )}
-                    <Button onClick={handleModelClose} variant="contained">
-                      Cancel
-                    </Button>
-                    <Button type="submit" variant="contained">
-                      Save
-                    </Button>
-                  </DialogActions>
-                </form>
-              </TabPanel>
             </TabContext>
           </Dialog>
         </Card>
