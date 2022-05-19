@@ -59,23 +59,45 @@ model employee_resignation {
 }
 
 model event_attendees {
-  id          Int    @id @default(autoincrement())
-  event_id    String @db.VarChar(255)
-  events      events @relation(fields: [event_id], references: [event_id], onUpdate: Restrict)
-  attendee_id String @db.VarChar(255)
-  attendee    users  @relation(fields: [attendee_id], references: [employee_id])
+  id          Int     @id @default(autoincrement())
+  event_id    String
+  events      events  @relation(fields: [event_id], references: [event_id], onUpdate: Restrict, onDelete: Cascade)
+  email       String?
+  name        String?
+  phone       String?
+  location    String? @db.VarChar(255)
+  response    String? @db.Text
+  attendee_id String? @db.VarChar(255)
+  attendee    users?  @relation(fields: [attendee_id], references: [employee_id])
 }
 
 model events {
-  event_id        String            @id @default(uuid())
-  created_by      String
-  creator         users             @relation(fields: [created_by], references: [employee_id])
-  title           String
-  description     String
-  start           DateTime
-  end             DateTime
-  kind            String
-  event_attendees event_attendees[]
+  event_id         String            @id @default(uuid())
+  created_by       String
+  creator          users             @relation(fields: [created_by], references: [employee_id])
+  title            String
+  description      String?           @db.VarChar(255)
+  start            DateTime
+  end              DateTime
+  kind             String
+  status           String?           @db.VarChar(255)
+  interview_status String?           @db.Text
+  event_attendees  event_attendees[]
+}
+
+model recruits {
+  id                              Int     @id @default(autoincrement())
+  first_name                      String
+  last_name                       String?
+  location                        String?
+  phone                           String?
+  present_ctc                     String?
+  expected_ctc                    String?
+  experience                      Float?
+  maritial_status                 String?
+  highest_education_qualification String?
+  previous_company                String?
+
 }
 
 model feedback {
@@ -117,8 +139,8 @@ model task {
   end_date    DateTime       @db.Date
   status      task_status    @default(pending)
   priority    tasks_priority @default(low)
-  created_at  DateTime       @default(now()) @db.Timestamp(6)
-  updated_at  DateTime       @default(now()) @updatedAt @db.Timestamp(6)
+  created_at  DateTime       @default(now())
+  updated_at  DateTime       @default(now()) @updatedAt
 }
 
 enum tasks_priority {

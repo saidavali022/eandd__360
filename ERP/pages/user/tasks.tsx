@@ -98,7 +98,7 @@ export default function Tasks() {
           getTaskList();
         }
       })
-      .catch(function (error: any) {});
+      .catch((error: any) => {});
   };
 
   function renderAction(params: GridRenderCellParams) {
@@ -273,7 +273,6 @@ export default function Tasks() {
             </Container>
           </Box>
         </Drawer>
-        {ToastContainer_box}
       </Container>
     </Page>
   );

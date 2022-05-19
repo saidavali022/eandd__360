@@ -30,8 +30,13 @@ const sidebarConfig = [
   },
   {
     title: "Calendar",
-    path: "/user/calendar",
+    path: "/hr/calendar",
     icon: getIcon("eva:calendar-outline"),
+  },
+  {
+    title: "Interviews",
+    path: "/hr/interviews",
+    icon: getIcon("eva:people-fill"),
   },
   {
     title: "Exit Management",

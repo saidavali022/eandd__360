@@ -30,12 +30,12 @@ const MENU_OPTIONS = [
   {
     label: "Profile",
     icon: "mdi:account",
-    linkTo: "/dashboard/users/profile",
+    linkTo: "#",
   },
   {
     label: "Settings",
     icon: "mdi:cog",
-    linkTo: "/dashboard/settings",
+    linkTo: "/admin/settings",
   },
 ];
 

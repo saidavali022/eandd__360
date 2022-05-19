@@ -6,6 +6,7 @@ import attendance from "./attendance.routes";
 import lettergenaration from "./lettergenaration.routes";
 import events from "./events.routes";
 import init from "./init.routes";
+import interview from "./interview.routes";
 const router = express.Router();
 
 router.use("/init", init); //fill dummy data for testing purpose
@@ -14,6 +15,7 @@ router.use("/tasks", tasks);
 router.use("/attendance", attendance);
 router.use("/exits", exit);
 router.use("/lettergenaration", lettergenaration);
+router.use("/users/events/interview", interview);
 router.use("/users/events", events);
 
 export default router;

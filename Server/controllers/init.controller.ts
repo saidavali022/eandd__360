@@ -12,6 +12,9 @@ interface TypedRequest extends Request {
 }
 
 export const initTables = async (req: TypedRequest, res: Response) => {
+  console.info("---");
+  console.info("initTables");
+  console.info("---");
   try {
     const user = await prisma.users.create({
       data: {

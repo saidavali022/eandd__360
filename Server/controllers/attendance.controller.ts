@@ -12,6 +12,9 @@ interface TypedRequest extends Request {
 }
 
 export const getUserAttendance = async (req: TypedRequest, res: Response) => {
+  console.info("---");
+  console.info("getUserAttendance");
+  console.info("---");
   const { empId } = req.params;
   let { date } = req.query;
   try {

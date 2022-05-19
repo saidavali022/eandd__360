@@ -1,8 +1,8 @@
 import { Router } from "express";
 import {
-  getTaskDetails,
-  getUserTaskList,
-  listTasks,
+  updateTask,
+  getUserTasks,
+  createTask,
   deleteTask,
   updateTaskStatus,
 } from "../controllers/tasks.controller";
@@ -10,11 +10,12 @@ import upload from "../modules/fileupload";
 
 const router = Router();
 
-router.get("/", listTasks);
-router.put("/:Id", getTaskDetails);
-router.post("/:Id", upload.single("file"), getTaskDetails);
-router.get("/:empId", getUserTaskList);
-router.put("/status/:Id", updateTaskStatus);
+router.get("/:empId", getUserTasks);
+
+router.post("/", upload.single("file"), createTask);
+router.put("/:taskId", updateTask);
 router.delete("/:Id", deleteTask);
+
+router.put("/status/:taskId", updateTaskStatus);
 
 export default router;

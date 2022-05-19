@@ -241,12 +241,7 @@ export default function Calendar() {
           <FullCalendar
             // innerRef={calendarRef}
             initialView="dayGridMonth"
-            plugins={[
-              timeGridPlugin,
-              interactionPlugin,
-              dayGridPlugin,
-              googleCalendarPlugin,
-            ]}
+            plugins={[timeGridPlugin, interactionPlugin, dayGridPlugin]}
             events={getEvents}
             headerToolbar={{
               left: "dayGridMonth,timeGridWeek,timeGridDay,dayGridDay",
