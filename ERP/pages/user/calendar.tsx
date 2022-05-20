@@ -45,6 +45,7 @@ import {
   TabPanel,
 } from "@mui/lab";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { useSelector } from "react-redux";
 //---------------------------------------------
 
 /**
@@ -90,7 +91,7 @@ const appointmentInitialState = {
 
 export default function Calendar() {
   // const calendarRef = useRef(null);
-  const sessionUserId = "END1112"; // TODO dynamic login user id
+  const globalState = useSelector((state) => state.globalState);
   const [openModel, setOpenModel] = useState(false);
   const [tabIndex, setTabIndex] = useState("appointment");
   const [appointmentInput, setAppointmentInput] = useReducer(
@@ -129,7 +130,10 @@ export default function Calendar() {
     const eventId = event.event._def.publicId;
 
     axios
-      .get(`http://localhost:3001/users/events/${sessionUserId}/${eventId}`, {})
+      .get(
+        `http://localhost:3001/users/events/${globalState.Employee_id}/${eventId}`,
+        {}
+      )
       .then((res: any) => {
         if (res.status !== 200) {
           toast.error("Something went Wrong", {
@@ -193,7 +197,7 @@ export default function Calendar() {
     }
 
     axios
-      .delete(`/users/events/${sessionUserId}/${data.id}`)
+      .delete(`/users/events/${globalState.Employee_id}/${data.id}`)
       .then((res: any) => {
         setOpenModel(false);
         toast.success("Successful", { theme: "colored" });
@@ -209,7 +213,7 @@ export default function Calendar() {
     let data = { ...appointmentInput };
     if (appointmentInput.id == null) {
       axios
-        .post(`users/events/${sessionUserId}`, data)
+        .post(`users/events/${globalState.Employee_id}`, data)
         .then((res: any) => {
           console.log("Success:", JSON.stringify(res));
           setOpenModel(false);
@@ -226,7 +230,10 @@ export default function Calendar() {
 
     if (appointmentInput.id != null) {
       axios
-        .put(`/users/events/${sessionUserId}/${appointmentInput.id}`, data)
+        .put(
+          `/users/events/${globalState.Employee_id}/${appointmentInput.id}`,
+          data
+        )
         .then((res: any) => {
           console.log("Success:", JSON.stringify(res));
           setOpenModel(false);
@@ -248,7 +255,7 @@ export default function Calendar() {
     failureCallback: (arg0: any) => void
   ) => {
     axios
-      .get(`http://localhost:3001/users/events/${sessionUserId}`, {
+      .get(`http://localhost:3001/users/events/${globalState.Employee_id}`, {
         params: {
           start: info.startStr,
           end: info.endStr,
@@ -410,7 +417,7 @@ export default function Calendar() {
                       >
                         {appUsers
                           .filter((user) => {
-                            return user.id !== sessionUserId;
+                            return user.id !== globalState.Employee_id;
                           })
                           .map((user) => (
                             <MenuItem key={user.id} value={user.id}>

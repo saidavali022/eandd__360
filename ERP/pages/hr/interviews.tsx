@@ -86,7 +86,7 @@ const interviewAppointmentFiltersInitialState = {
 };
 
 export default function Interviews() {
-  const sessionUserId = "END1111"; // TODO: Assign session user id
+  const globalState = useSelector((state) => state.globalState);
   const [rowData, setRowData] = useState([]);
   const [formData, setFormData] = useState();
   const [updateCounter, setUpdateCounter] = useState(0);
@@ -185,7 +185,7 @@ export default function Interviews() {
     }
 
     axios
-      .delete(`/users/events/${sessionUserId}/${data.id}`)
+      .delete(`/users/events/${globalState.Employee_id}/${data.id}`)
       .then((res: any) => {
         setanchor(false);
         toast.success("Successful", { theme: "colored" });
@@ -208,7 +208,7 @@ export default function Interviews() {
     let data = { ...interviewAppointmentInput };
     if (interviewAppointmentInput.id == null) {
       axios
-        .post(`users/events/interview/${sessionUserId}`, data)
+        .post(`users/events/interview/${globalState.Employee_id}`, data)
         .then((res: any) => {
           setanchor(false);
           toast.success("Successful", {
@@ -226,7 +226,7 @@ export default function Interviews() {
     if (interviewAppointmentInput.id != null) {
       axios
         .put(
-          `/users/events/interview/${sessionUserId}/${interviewAppointmentInput.id}`,
+          `/users/events/interview/${globalState.Employee_id}/${interviewAppointmentInput.id}`,
           data
         )
         .then((res: any) => {
@@ -246,7 +246,7 @@ export default function Interviews() {
 
   const getUserInterviews = () => {
     axios
-      .get(`/users/events/interview/${sessionUserId}`, {
+      .get(`/users/events/interview/${globalState.Employee_id}`, {
         params: {
           start: interviewAppointmentFilterInput.start,
           end: interviewAppointmentFilterInput.end,

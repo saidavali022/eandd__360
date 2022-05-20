@@ -2,6 +2,7 @@ import { filter } from "lodash";
 import { sentenceCase } from "change-case";
 import type { ReactElement } from "react";
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { differenceInMinutes } from "date-fns";
 import { DatePicker } from "@mui/x-date-pickers";
 import UserDashboardLayout from "@layouts/userdashboard";
@@ -210,21 +211,21 @@ const defaultRows = [
 ];
 
 export default function Attendance() {
-  const { data: session, status } = useSession();
+  const globalState = useSelector((state) => state.globalState);
   const [calDate, setCalDate] = useState<Date | null>(new Date());
   const [rows, setRows] = useState([]);
   useEffect(() => {
     axios
-      .get("http://localhost:3001/attendance/END1111", {
+      .get(`http://localhost:3001/attendance/${globalState.Employee_id}`, {
         params: {
           date: calDate,
         },
       })
-      .then((res) => {
+      .then((res: any) => {
         console.info("api response -", res);
         setRows(res.data);
       })
-      .catch((err) => {
+      .catch((err: any) => {
         console.error(err);
       });
   }, [calDate]);
