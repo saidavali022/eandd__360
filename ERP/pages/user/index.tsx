@@ -39,9 +39,11 @@ export default function DashboardApp() {
   const router = useRouter();
   const { data: session, status } = useSession();
   const [availabilityStatus, setAvailabilityStatus] = useState();
+
   const handleAvailabilityChange = (event: SelectChangeEvent) => {
     setAvailabilityStatus(event.target.value);
   };
+
   console.log("session- ", session);
   const loading = status === "loading";
   // const [content, setContent] = useState();

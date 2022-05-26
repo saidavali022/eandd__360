@@ -186,7 +186,6 @@ model attendance {
   employee_id String?
   users       users?    @relation(fields: [employee_id], references: [employee_id], map: "Attendance_user_id_fkey")
   breaks      breaks[]
-
 }
 
 model breaks {

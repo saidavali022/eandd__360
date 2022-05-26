@@ -32,3 +32,5 @@ export const getUserAttendance = async (req: TypedRequest, res: Response) => {
     return;
   }
 };
+
+export const;
